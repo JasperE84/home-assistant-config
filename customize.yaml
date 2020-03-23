@@ -1,0 +1,8 @@
+sensor.network_throughput_in_eth0:
+  friendly_name: Download
+sensor.network_throughput_out_eth0:
+  friendly_name: Upload
+sensor.network_throughput_out_vlan100:
+  friendly_name: Gast up
+sensor.network_throughput_in_vlan100:
+  friendly_name: Gast down

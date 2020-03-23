@@ -1,0 +1,81 @@
+default_config:
+
+homeassistant:
+  packages: !include_dir_named packages
+  customize: !include customize.yaml
+
+logger:
+  default: info
+  logs:
+    homeassistant.helpers.script: debug
+
+http:
+  base_url: !secret base_url
+  server_port: !secret server_port 
+  ssl_certificate: /home/ha/cert/fullchain.pem
+  ssl_key: /home/ha/cert/privkey.pem
+  cors_allowed_origins:
+    - https://google.com
+    - https://www.home-assistant.io
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+
+google_assistant:
+  project_id: !secret google_assistant_project_id 
+  api_key: !secret google_assistant_api_key
+  service_account: !include SERVICE_ACCOUNT.JSON
+  report_state: true
+  expose_by_default: false
+  entity_config:
+    script.skyradio_on:
+      name: SKYRADIO
+      aliases:
+        - SKY RADIO
+      expose: true
+      room: Woonkamer
+  exposed_domains:
+    - script
+
+tts:
+  - platform: google_translate
+
+remote:
+  - platform: harmony
+    name: woonkamer
+    host: 192.168.84.5
+
+hue:
+  bridges:
+    - host: 192.168.84.4
+
+sensor:
+  - platform: dsmr
+    port: /dev/ttyUSB0
+    dsmr_version: 5
+
+  - platform: systemmonitor
+    resources:
+      - type: processor_use
+      - type: memory_use_percent
+      - type: swap_use_percent
+      - type: throughput_network_in
+        arg: eth0
+      - type: throughput_network_out
+        arg: eth0
+      - type: throughput_network_in
+        arg: vlan100
+      - type: throughput_network_out
+        arg: vlan100
+
+media_player:
+  - platform: kodi
+    host: 192.168.84.6 
+    port: 8080
+    name: Kodi
+    username: !secret kodi_user
+    password: !secret kodi_pass 
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
