@@ -8,6 +8,7 @@
 !*.md
 
 # Ignore folders.
+!packages
 .storage
 .cloud
 .google.token
