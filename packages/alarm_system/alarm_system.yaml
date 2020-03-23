@@ -1,0 +1,112 @@
+input_boolean:
+  alarm_bij_afwezig:
+    name: Alarm bij afwezig
+    initial: on
+    icon: mdi:alarm-light
+  alarm_altijd:
+    name: Alarm altijd
+    initial: off
+    icon: mdi:alarm-light
+  flash_loop:
+    initial: off
+    icon: mdi:alarm-light
+
+automation:
+  - alias: Alarm bij automation script
+    description: ''
+    trigger:
+    - entity_id: binary_sensor.gang_sensor_motion
+      platform: state
+      to: 'on'
+    condition:
+      condition: or
+      conditions:
+        # OF (BIJ AFWEZIG & NIEMAND AANWEZIG)
+        - condition: and
+          conditions:
+            - condition: state
+              entity_id: input_boolean.alarm_bij_afwezig
+              state: 'on'
+            - condition: state
+              entity_id: device_tracker.jasper_galaxy_s7
+              state: not_home
+            - condition: state
+              entity_id: device_tracker.marielle_xiaomi
+              state: not_home
+        # OF SIMPELWEG ALTIJD INGESCHAKELD  
+        - condition: state
+          entity_id: input_boolean.alarm_altijd
+          state: 'on'
+
+    action:
+    - service: notify.mobile_app_app_marielle_xiaomi
+      data:
+        message: Beweging in gang gedetecteerd
+        title: Alarm
+    - service: notify.mobile_app_app_jasper_sm_g935f
+      data:
+        message: Beweging in gang gedetecteerd
+        title: Alarm
+    - service: script.turn_on
+      entity_id: script.flash_start
+
+  - alias: Flash loop auto-off
+    description: ''
+    trigger:
+    - entity_id: input_boolean.flash_loop
+      platform: state
+      to: 'on'
+    condition: []
+    action:
+    - timeout: 00:01:00
+      wait_template: ''
+    - entity_id: input_boolean.flash_loop
+      service: input_boolean.turn_off
+
+script:
+  flash_start:
+    alias: Start alarmlicht
+    sequence:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.flash_loop
+    - service: script.turn_on
+      entity_id: script.flash_cycle
+
+  flash_stop:
+    alias: Stop alarmlicht
+    sequence:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.flash_loop
+
+  flash_cycle:
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id: 
+        - light.woonkamer
+        - light.gang
+        brightness_pct: 100
+        rgb_color: [255,0,0]
+        transition: 0
+    - delay: 00:00:01
+    - service: light.turn_off
+      data:
+        entity_id:
+        - light.woonkamer
+        - light.gang
+        transition: 0
+    - service: script.turn_on
+      entity_id: script.flash_loop
+
+  flash_loop:
+    sequence:
+    - delay: 00:00:02
+    - condition: state
+      entity_id: input_boolean.flash_loop
+      state: 'on'
+    - alias: flash_loop
+      entity_id: script.flash_cycle
+      service: script.turn_on
+
