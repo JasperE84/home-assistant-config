@@ -1,0 +1,65 @@
+input_select:
+  chromecast_audio_source:
+    name: 'Playlist'
+    options:
+      - Skyradio
+      - BNR
+
+script:
+  skyradio_on:
+    alias: Skyradio starten
+    sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.chromecast_audio_source
+        option: Skyradio
+    - service: script.turn_on
+      entity_id: script.chromecast_audio_play
+
+  chromecast_on:
+    alias: Chromecast inschakelen
+    sequence:
+    - service: media_player.turn_off
+      entity_id: media_player.chromecast
+    - wait_template: "{{ is_state('media_player.chromecast', 'off') }}"
+      timeout: '00:00:15'
+    - service: media_player.turn_on
+      entity_id: media_player.chromecast
+    - wait_template: "{{ is_state('media_player.chromecast', 'idle') }}"
+      timeout: '00:00:15'
+    - service: media_player.volume_set
+      entity_id: media_player.chromecast
+      data:
+        volume_level: 0.6
+
+  versterker_on:
+    alias: Chromecast inschakelen
+    sequence:
+    - condition: template
+      value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'Versterker' }}"
+    - service: remote.turn_on
+      entity_id: remote.woonkamer
+      data:
+        activity: Versterker    
+    - wait_template: "{{ state_attr('remote.woonkamer', 'current_activity') == 'Versterker' }}"
+      timeout: '00:00:15'
+
+  chromecast_audio_play:
+    alias: Speel af op chromecast
+    sequence:
+    - service: script.turn_on
+      entity_id: script.versterker_on
+    - service: script.turn_on
+      entity_id: script.chromecast_on
+    - delay: 00:00:05
+    - service: media_player.play_media
+      entity_id: media_player.chromecast
+      data:
+        media_content_type: audio/mp3
+      data_template:
+        media_content_id: >
+          {% if is_state("input_select.chromecast_audio_source", "Skyradio") %} http://playerservices.streamtheworld.com/api/livestream-redirect/SKYRADIO.mp3
+          {% elif is_state("input_select.chromecast_audio_source", "BNR") %} http://icecast-bnr.cdp.triple-it.nl/bnr_mp3_96_06
+          {% endif %}
+
+

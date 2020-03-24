@@ -28,6 +28,6 @@ script:
         media_content_type: video
       data_template:
         media_content_id: >
-          {% if is_state("input_select.youtube_playlist", "Jokie en Jet") %} plugin://plugin.video.youtube/play/?playlist_id=PLlI1lS7MTsOcNDqbuXZLRhief-A_Bgk4L&order=shuffle&play=1&repeat=all
-          {% elif is_state("input_select.youtube_playlist", "Bing") %} plugin://plugin.video.youtube/play/?playlist_id=PLuyh4PqGZjmUxs0GrvmcRK54in2-blMec&order=shuffle&play=1&repeat=all
+          {% if is_state("input_select.youtube_playlist", "Jokie en Jet") %} plugin://plugin.video.youtube/play/?playlist_id=PLlI1lS7MTsOcNDqbuXZLRhief-A_Bgk4L&order=shuffle&play=1
+          {% elif is_state("input_select.youtube_playlist", "Bing") %} plugin://plugin.video.youtube/play/?playlist_id=PLuyh4PqGZjmUxs0GrvmcRK54in2-blMec&order=shuffle&play=1
           {% endif %}
