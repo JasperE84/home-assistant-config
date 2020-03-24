@@ -1,0 +1,33 @@
+input_select:
+  youtube_playlist:
+    name: 'Playlist'
+    options:
+      - Jokie en Jet
+      - Bing
+
+script:
+  kodi_on:
+    alias: Kodi inschakelen
+    sequence:
+    - condition: template
+      value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'Kodi' }}"
+    - service: remote.turn_on
+      entity_id: remote.woonkamer
+      data:
+        activity: Kodi
+    - delay: 00:00:15
+
+  youtube_playlist_play:
+    alias: Speel af op kodi
+    sequence:
+    - service: script.turn_on
+      entity_id: script.kodi_on
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.kodi
+        media_content_type: video
+      data_template:
+        media_content_id: >
+          {% if is_state("input_select.youtube_playlist", "Jokie en Jet") %} plugin://plugin.video.youtube/play/?playlist_id=PLlI1lS7MTsOcNDqbuXZLRhief-A_Bgk4L&order=shuffle&play=1&repeat=all
+          {% elif is_state("input_select.youtube_playlist", "Bing") %} plugin://plugin.video.youtube/play/?playlist_id=PLuyh4PqGZjmUxs0GrvmcRK54in2-blMec&order=shuffle&play=1&repeat=all
+          {% endif %}

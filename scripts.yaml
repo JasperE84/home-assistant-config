@@ -18,16 +18,3 @@ skyradio_on:
     data:
       media_content_id: http://playerservices.streamtheworld.com/api/livestream-redirect/SKYRADIO.mp3
       media_content_type: audio/mp3
-kodi_jokie_on:
-  alias: Speel jokie en jet op kodi
-  sequence:
-  - service: remote.turn_on
-    entity_id: remote.woonkamer
-    data:
-      activity: Kodi
-  - delay: 00:00:05
-  - service: media_player.play_media
-    data:
-      entity_id: media_player.kodi
-      media_content_type: "PLUGIN"
-      media_content_id: "plugin://plugin.video.youtube/play/?playlist_id=PLlI1lS7MTsOcNDqbuXZLRhief-A_Bgk4L&play=1&order=default"
