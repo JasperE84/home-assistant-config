@@ -2,8 +2,12 @@ input_select:
   youtube_playlist:
     name: 'Playlist'
     options:
-      - Jokie en Jet
-      - Bing
+      - "Jokie (afleveringen)"
+      - "Jokie (dansen)"
+      - "Bing"
+      - "Juf Roos"
+      - "Nijntje"
+      - "Bumba"
 
 script:
   kodi_on:
@@ -15,7 +19,12 @@ script:
       entity_id: remote.woonkamer
       data:
         activity: Kodi
-    - delay: 00:00:15
+    - delay: 00:00:05
+    - wait_template: "{{ state_attr('remote.woonkamer', 'current_activity') == 'Kodi' }}"
+      timeout: '00:00:10'
+    - wait_template: "{{ is_state('media_player.kodi', 'on') }}"
+      timeout: '00:00:30'
+
 
   youtube_playlist_play:
     alias: Speel af op kodi
@@ -25,9 +34,13 @@ script:
     - service: media_player.play_media
       data:
         entity_id: media_player.kodi
-        media_content_type: video
+        media_content_type: playlist 
       data_template:
         media_content_id: >
-          {% if is_state("input_select.youtube_playlist", "Jokie en Jet") %} plugin://plugin.video.youtube/play/?playlist_id=PLlI1lS7MTsOcNDqbuXZLRhief-A_Bgk4L&order=shuffle&play=1
+          {% if is_state("input_select.youtube_playlist", "Jokie (afleveringen)") %} plugin://plugin.video.youtube/play/?playlist_id=PLxGx3wMkEOuc8Ek01S9Sb9QrzHUkQzsuK&order=shuffle&play=1
+          {% elif is_state("input_select.youtube_playlist", "Jokie (dansen)") %} plugin://plugin.video.youtube/play/?playlist_id=PLxGx3wMkEOueEcIsbBf5pHmqHr8beTi73&order=shuffle&play=1
           {% elif is_state("input_select.youtube_playlist", "Bing") %} plugin://plugin.video.youtube/play/?playlist_id=PLuyh4PqGZjmUxs0GrvmcRK54in2-blMec&order=shuffle&play=1
+          {% elif is_state("input_select.youtube_playlist", "Juf Roos") %} plugin://plugin.video.youtube/play/?playlist_id=PLpb0mdVsIliOgxUhbxvwEEr8M1hPNCBzo&order=shuffle&play=1
+          {% elif is_state("input_select.youtube_playlist", "Bumba") %} plugin://plugin.video.youtube/play/?playlist_id=PLporszkvR1VdA-o052J1iKXCRDWhUGHXR&order=shuffle&play=1
+          {% elif is_state("input_select.youtube_playlist", "Nijntje") %} plugin://plugin.video.youtube/play/?playlist_id=PL7W9JqbVCN0EQSxY4-2Umbtoie1YbiDpg&order=shuffle&play=1
           {% endif %}

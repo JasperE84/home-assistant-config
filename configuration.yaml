@@ -5,7 +5,7 @@ homeassistant:
   customize: !include customize.yaml
 
 logger:
-  default: info
+  default: info 
   logs:
     homeassistant.helpers.script: debug
 
@@ -74,6 +74,14 @@ media_player:
     name: Kodi
     username: !secret kodi_user
     password: !secret kodi_pass 
+
+zone:
+  - name: Contour Winterswijk
+    latitude: 51.9624018
+    longitude: 6.716457517
+    radius: 300
+    icon: mdi:factory
+
 
 group: !include groups.yaml
 automation: !include automations.yaml
