@@ -2,6 +2,7 @@ input_select:
   youtube_playlist:
     name: 'Playlist'
     options:
+      - "Dansjes"
       - "Jokie (afleveringen)"
       - "Jokie (dansen)"
       - "Bing"
@@ -19,11 +20,12 @@ script:
       entity_id: remote.woonkamer
       data:
         activity: Kodi
-    - delay: 00:00:05
+    - delay: 00:00:03
     - wait_template: "{{ state_attr('remote.woonkamer', 'current_activity') == 'Kodi' }}"
       timeout: '00:00:10'
-    - wait_template: "{{ state('media_player.kodi') != 'off' }}"
+    - wait_template: "{{ not is_state('media_player.kodi', 'off') }}"
       timeout: '00:00:30'
+    - delay: 00:00:15
 
 
   youtube_playlist_play:
@@ -31,6 +33,9 @@ script:
     sequence:
     - service: script.turn_on
       entity_id: script.kodi_on
+    - delay: 00:00:01
+    - wait_template: "{{ is_state('script.kodi_on', 'off') }}"
+      timeout: '00:01:00'
     - service: media_player.play_media
       data:
         entity_id: media_player.kodi
@@ -43,4 +48,5 @@ script:
           {% elif is_state("input_select.youtube_playlist", "Juf Roos") %} plugin://plugin.video.youtube/play/?playlist_id=PLpb0mdVsIliOgxUhbxvwEEr8M1hPNCBzo&order=shuffle&play=1
           {% elif is_state("input_select.youtube_playlist", "Bumba") %} plugin://plugin.video.youtube/play/?playlist_id=PLporszkvR1VdA-o052J1iKXCRDWhUGHXR&order=shuffle&play=1
           {% elif is_state("input_select.youtube_playlist", "Nijntje") %} plugin://plugin.video.youtube/play/?playlist_id=PL7W9JqbVCN0EQSxY4-2Umbtoie1YbiDpg&order=shuffle&play=1
+          {% elif is_state("input_select.youtube_playlist", "Dansjes") %} plugin://plugin.video.youtube/play/?playlist_id=PL1vYyr177M8YrP16jo8D7dOh1pWHiOGrx&order=shuffle&play=1
           {% endif %}

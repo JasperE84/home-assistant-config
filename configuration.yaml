@@ -33,6 +33,14 @@ google_assistant:
         - SKY RADIO
       expose: true
       room: Woonkamer
+    script.esmee_disco_on:
+      name: ESMEE DISCO
+      aliases:
+        - ESMEE DISCO
+        - KINDERFEESTJE
+      expose: true
+      room: Woonkamer
+
   exposed_domains:
     - script
 
