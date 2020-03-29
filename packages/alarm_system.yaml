@@ -41,14 +41,18 @@ automation:
     action:
     - service: notify.mobile_app_app_marielle_xiaomi
       data:
-        message: Beweging in gang gedetecteerd
+        message: "Beweging in gang {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
         title: Alarm
     - service: notify.mobile_app_app_jasper_sm_g935f
       data:
-        message: Beweging in gang gedetecteerd
+        message: "Beweging in gang: {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
         title: Alarm
     - service: script.turn_on
       entity_id: script.flash_start
+    - service: tts.google_translate_say
+      entity_id: media_player.mini
+      data:
+        message: 'alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm'
 
   - alias: Flash loop auto-off
     description: ''
