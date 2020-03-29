@@ -8,6 +8,7 @@ script:
         option: Dansjes
     - service: script.turn_on
       entity_id: script.youtube_playlist_play
+    - delay: 00:00:10
     - service: light.turn_on
       data:
         entity_id:

@@ -20,20 +20,23 @@ script:
       entity_id: remote.woonkamer
       data:
         activity: Kodi
-    - delay: 00:00:03
+    - delay: 00:00:01
     - wait_template: "{{ state_attr('remote.woonkamer', 'current_activity') == 'Kodi' }}"
       timeout: '00:00:10'
     - wait_template: "{{ not is_state('media_player.kodi', 'off') }}"
       timeout: '00:00:30'
-    - delay: 00:00:15
+    - delay: 00:00:10
 
 
   youtube_playlist_play:
     alias: Speel af op kodi
     sequence:
+    - service: python_script.set_state
+      data_template:
+        entity_id: script.kodi_on
+        state: on
     - service: script.turn_on
       entity_id: script.kodi_on
-    - delay: 00:00:01
     - wait_template: "{{ is_state('script.kodi_on', 'off') }}"
       timeout: '00:01:00'
     - service: media_player.play_media

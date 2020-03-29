@@ -9,6 +9,8 @@ logger:
   logs:
     homeassistant.helpers.script: debug
 
+python_script:
+
 http:
   base_url: !secret base_url
   server_port: !secret server_port 
@@ -84,12 +86,11 @@ media_player:
     password: !secret kodi_pass 
 
 zone:
-  - name: Contour Winterswijk
-    latitude: 51.9624018
-    longitude: 6.716457517
+  - name: !secret ctr_zname
+    latitude: !secret ctr_zlat
+    longitude: !secret ctr_zlong
     radius: 300
     icon: mdi:factory
-
 
 group: !include groups.yaml
 automation: !include automations.yaml

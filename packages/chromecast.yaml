@@ -2,8 +2,11 @@ input_select:
   chromecast_audio_source:
     name: 'Playlist'
     options:
-      - Skyradio
-      - BNR
+      - 'Skyradio'
+      - 'BNR'
+      - 'Radio 1'
+      - 'Radio 2'
+      - '3FM'
 
 script:
   skyradio_on:
@@ -33,7 +36,7 @@ script:
         volume_level: 0.6
 
   versterker_on:
-    alias: Chromecast inschakelen
+    alias: Versterker inschakelen
     sequence:
     - condition: template
       value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'Versterker' }}"
@@ -45,13 +48,25 @@ script:
       timeout: '00:00:15'
 
   chromecast_audio_play:
-    alias: Speel af op chromecast
+    alias: Speel op chromecast
     sequence:
+    - service: python_script.set_state
+      data_template:
+        entity_id: script.versterker_on
+        state: on
     - service: script.turn_on
       entity_id: script.versterker_on
+    - wait_template: "{{ is_state('script.versterker_on', 'off') }}"
+      timeout: '00:01:00'
+    - service: python_script.set_state
+      data_template:
+        entity_id: script.chromecast_on
+        state: on
     - service: script.turn_on
       entity_id: script.chromecast_on
-    - delay: 00:00:05
+    - wait_template: "{{ is_state('script.chromecast_on', 'off') }}"
+      timeout: '00:01:00'
+    #- delay: 00:00:05
     - service: media_player.play_media
       entity_id: media_player.chromecast
       data:
@@ -60,6 +75,9 @@ script:
         media_content_id: >
           {% if is_state("input_select.chromecast_audio_source", "Skyradio") %} http://playerservices.streamtheworld.com/api/livestream-redirect/SKYRADIO.mp3
           {% elif is_state("input_select.chromecast_audio_source", "BNR") %} http://icecast-bnr.cdp.triple-it.nl/bnr_mp3_96_06
+          {% elif is_state("input_select.chromecast_audio_source", "Radio 1") %} http://icecast.omroep.nl/radio1-bb-mp3
+          {% elif is_state("input_select.chromecast_audio_source", "Radio 2") %} http://icecast.omroep.nl/radio2-bb-mp3
+          {% elif is_state("input_select.chromecast_audio_source", "3FM") %} http://icecast.omroep.nl/3fm-bb-mp3
           {% endif %}
 
 
