@@ -9,6 +9,7 @@ input_select:
       - "Juf Roos"
       - "Nijntje"
       - "Bumba"
+      - "Zandkasteel"
 
 script:
   kodi_on:
@@ -52,4 +53,5 @@ script:
           {% elif is_state("input_select.youtube_playlist", "Bumba") %} plugin://plugin.video.youtube/play/?playlist_id=PLporszkvR1VdA-o052J1iKXCRDWhUGHXR&order=shuffle&play=1
           {% elif is_state("input_select.youtube_playlist", "Nijntje") %} plugin://plugin.video.youtube/play/?playlist_id=PL7W9JqbVCN0EQSxY4-2Umbtoie1YbiDpg&order=shuffle&play=1
           {% elif is_state("input_select.youtube_playlist", "Dansjes") %} plugin://plugin.video.youtube/play/?playlist_id=PL1vYyr177M8YrP16jo8D7dOh1pWHiOGrx&order=shuffle&play=1
+          {% elif is_state("input_select.youtube_playlist", "Zandkasteel") %} plugin://plugin.video.youtube/play/?playlist_id=PLlQTZHuS6dRKbhoUhQcTg3A8LgTAlF8sR&order=shuffle&play=1
           {% endif %}

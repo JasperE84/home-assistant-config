@@ -48,10 +48,14 @@ automation:
         title: Alarm
     - service: script.turn_on
       entity_id: script.flash_start
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.mini
+        volume_level: 1
     - service: tts.google_translate_say
       entity_id: media_player.mini
       data:
-        message: 'alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm alarm'
+        message: 'alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!'
 
   - alias: Flash loop auto-off
     description: ''
