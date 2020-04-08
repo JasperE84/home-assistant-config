@@ -15,10 +15,10 @@ automation:
   - alias: Alarm bij automation script
     description: ''
     trigger:
-    - entity_id: binary_sensor.gang_sensor_motion
+    - entity_id: binary_sensor.gang_sensor_occupancy
       platform: state
       to: 'on'
-    - entity_id: binary_sensor.huiskamer_sensor_occupancy
+    - entity_id: binary_sensor.woonkamer_sensor_occupancy
       platform: state
       to: 'on'
     condition:
@@ -43,11 +43,11 @@ automation:
     action:
     - service: notify.mobile_app_app_marielle_xiaomi
       data:
-        message: "Beweging in gang {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
+        message: "Beweging in huis {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
         title: Alarm
     - service: notify.mobile_app_app_jasper_sm_g935f
       data:
-        message: "Beweging in gang: {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
+        message: "Beweging in huis: {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
         title: Alarm
     - service: script.turn_on
       entity_id: script.flash_start
@@ -96,7 +96,7 @@ script:
       data:
         entity_id: 
         - light.woonkamer
-        - light.gang
+        - light.gang_lamp
         brightness_pct: 100
         rgb_color: [255,0,0]
         transition: 0
@@ -105,7 +105,7 @@ script:
       data:
         entity_id:
         - light.woonkamer
-        - light.gang
+        - light.gang_lamp
         transition: 0
     - service: script.turn_on
       entity_id: script.flash_loop
