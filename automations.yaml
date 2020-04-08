@@ -1,0 +1,13 @@
+- id: '1586290054304'
+  alias: Thermostaat zolder uitzetten
+  description: ''
+  trigger:
+  - at: '22:45:00'
+    platform: time
+  condition: []
+  action:
+  - data:
+      hvac_mode: auto
+      temperature: 14
+    entity_id: climate.thermostaat_studeerzolder_climate
+    service: climate.set_temperature
