@@ -41,13 +41,9 @@ automation:
           entity_id: input_boolean.alarm_altijd
           state: 'on'
     action:
-    - service: notify.mobile_app_app_marielle_xiaomi
+    - service: notify.notify
       data:
         message: "Beweging in huis {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
-        title: Alarm
-    - service: notify.mobile_app_app_jasper_sm_g935f
-      data:
-        message: "Beweging in huis: {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
         title: Alarm
     - service: script.turn_on
       entity_id: script.flash_start
