@@ -36,6 +36,9 @@ automation:
             - condition: state
               entity_id: device_tracker.marielle_xiaomi
               state: not_home
+            - condition: state
+              entity_id: device_tracker.galaxy_a50
+              state: not_home
         # OF SIMPELWEG ALTIJD INGESCHAKELD  
         - condition: state
           entity_id: input_boolean.alarm_altijd
