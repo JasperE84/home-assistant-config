@@ -1,0 +1,7 @@
+sensor:
+  - platform: template
+    sensors:
+      studeerzolder_temperature:
+        friendly_name: "Studeerzolder temperatuur"
+        unit_of_measurement: '°C'
+        value_template: "{{ state_attr('climate.thermostaat_studeerzolder_climate', 'current_temperature') }}"
