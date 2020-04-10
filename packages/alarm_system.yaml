@@ -21,6 +21,15 @@ automation:
     - entity_id: binary_sensor.woonkamer_sensor_occupancy
       platform: state
       to: 'on'
+    - entity_id: binary_sensor.openslaande_deuren
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.voordeur
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.frans_balkon
+      platform: state
+      to: 'on' 
     condition:
       condition: or
       conditions:
@@ -67,7 +76,7 @@ automation:
       to: 'on'
     condition: []
     action:
-    - timeout: 00:01:00
+    - timeout: 00:05:00
       wait_template: ''
     - entity_id: input_boolean.flash_loop
       service: input_boolean.turn_off
@@ -94,7 +103,9 @@ script:
     - service: light.turn_on
       data:
         entity_id: 
-        - light.woonkamer
+        - light.achter_tv
+        - light.naast_tv
+        - light.salontafel
         - light.gang_lamp
         brightness_pct: 100
         rgb_color: [255,0,0]
@@ -103,7 +114,9 @@ script:
     - service: light.turn_off
       data:
         entity_id:
-        - light.woonkamer
+        - light.achter_tv
+        - light.naast_tv
+        - light.salontafel
         - light.gang_lamp
         transition: 0
     - service: script.turn_on
