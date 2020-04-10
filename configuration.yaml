@@ -48,17 +48,10 @@ google_assistant:
       expose: true
       room: Woonkamer
 
-    script.youtube_playlist_play:
-      name: KINDER TV
+    script.jokie_playlist_on:
+      name: JOKIE
       aliases:
-        - KINDER TV
-      expose: true
-      room: Woonkamer
-
-    input_select.youtube_playlist:
-      name: PLAYLIST
-      aliases:
-        - PLAYLIST
+        - JOKIE
       expose: true
       room: Woonkamer
 

@@ -17,3 +17,14 @@ script:
           - light.salontafel
         effect: colorloop
         brightness: 255
+
+  jokie_playlist_on:
+    alias: Jolie playlist starten
+    sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.youtube_playlist
+        option: "Jokie (afleveringen)"
+    - service: script.turn_on
+      entity_id: script.youtube_playlist_play
+
