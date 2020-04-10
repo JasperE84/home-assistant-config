@@ -9,15 +9,15 @@ sensor:
         friendly_name: 'Voordeur laatst geopend'
         entity_id: binary_sensor.voordeur
         icon_template: mdi:glassdoor
-        value_template: '{{ as_timestamp(states.binary_sensor["voordeur"].last_updated) | timestamp_custom("%a %H:%M", True) }}'
+        value_template: '{{ as_timestamp(states.binary_sensor["voordeur"].last_updated) | timestamp_custom("%a %m %b %H:%M", True) }}'
       openslaande_deuren_last_opened:
         friendly_name: 'Openslaande deuren laatst geopend'
         entity_id: binary_sensor.openslaande_deuren
         icon_template: mdi:glassdoor
-        value_template: '{{ as_timestamp(states.binary_sensor["openslaande_deuren"].last_updated) | timestamp_custom("%a %H:%M", True) }}'
+        value_template: '{{ as_timestamp(states.binary_sensor["openslaande_deuren"].last_updated) | timestamp_custom("%a %m %b %H:%M", True) }}'
       frans_balkon_last_opened:
         friendly_name: 'Frans balkon laatst geopend'
         entity_id: binary_sensor.frans_balkon
         icon_template: mdi:glassdoor
-        value_template: '{{ as_timestamp(states.binary_sensor["frans_balkon"].last_updated) | timestamp_custom("%a %H:%M", True) }}'
+        value_template: '{{ as_timestamp(states.binary_sensor["frans_balkon"].last_updated) | timestamp_custom("%a %m %b %H:%M", True) }}'
 
