@@ -29,10 +29,9 @@ http:
 
 google_assistant:
   project_id: !secret google_assistant_project_id 
-  #api_key: !secret google_assistant_api_key
   service_account: !include SERVICE_ACCOUNT.JSON
   report_state: true
-  expose_by_default: false
+  expose_by_default: true
   entity_config:
     script.skyradio_on:
       name: SKYRADIO
@@ -40,6 +39,7 @@ google_assistant:
         - SKY RADIO
       expose: true
       room: Woonkamer
+
     script.esmee_disco_on:
       name: ESMEE DISCO
       aliases:
@@ -48,8 +48,24 @@ google_assistant:
       expose: true
       room: Woonkamer
 
+    script.youtube_playlist_play:
+      name: KINDER TV
+      aliases:
+        - KINDER TV
+      expose: true
+      room: Woonkamer
+
+    input_select.youtube_playlist:
+      name: PLAYLIST
+      aliases:
+        - PLAYLIST
+      expose: true
+      room: Woonkamer
+
   exposed_domains:
-    - script
+    #- script
+    - light
+    - scene
 
 tts:
   - platform: google_translate
@@ -58,10 +74,6 @@ remote:
   - platform: harmony
     name: woonkamer
     host: 192.168.84.5
-
-hue:
-  bridges:
-    - host: 192.168.84.4
 
 mqtt:
   discovery: true
@@ -72,6 +84,17 @@ mqtt:
   will_message:
     topic: 'hass/status'
     payload: 'offline'
+
+webhook:
+
+zigbee2mqtt_networkmap:
+   #topic: your topic (optional, default zigbee2mqtt)
+
+panel_iframe:
+  networkmap:
+    title: 'Zigbee Map'
+    url: '/local/community/zigbee2mqtt_networkmap/map.html'
+    icon: 'mdi:graphql'
 
 sensor:
   - platform: dsmr
