@@ -34,11 +34,11 @@ recorder:
       - sensor.woonkamer_sensor_temperature
 
       # netwerk
-      - sensor.network_troughput_out_vlan100
-      - sensor.network_troughput_in_vlan100
-      - sensor.network_troughput_out_eth0
-      - sensor.network_troughput_in_eth0
-
+      - sensor.network_throughput_out_vlan100
+      - sensor.network_throughput_in_vlan100
+      - sensor.network_throughput_out_eth0
+      - sensor.network_throughput_in_eth0
+      
       # systeem
       - sensor.processor_use
       - sensor.swap_use_percent
