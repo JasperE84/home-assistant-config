@@ -1,3 +1,50 @@
+# Specifically include sensors to log to improve NAS system performance
+recorder:
+  db_url: !secret db_url
+  purge_keep_days: 2
+  include:
+    entities:
+      # beweging
+      - binary_sensor.gang_sensor_occupancy
+      - binary_sensor.woonkamer_sensor_occupancy
+
+      # deuren
+      - binary_sensor.voordeur
+      - binary_sensor.openslaande_deuren
+      - binary_sensor.frans_balkon
+
+      # aanwezig
+      - person.jasper
+      - person.marielle
+      - person.marieke
+      - device_tracker.jasper_galaxy_x7
+      - device_tracker.marielle_xiaomi
+      - device_tracker.galaxy_a50
+      - device_tracker.jasperapp
+      - device_tracker.mi_a2_lite
+
+      # energie
+      - sensor.power_consumption
+      - sensor.power_production
+
+      # klimaat
+      - climate.thermostaat_studeerzolder_climate
+      - sensor.studeerzolder_temperature
+      - sensor.gang_sensor_temperature
+      - sensor.woonkamer_sensor_temperature
+
+      # netwerk
+      - sensor.network_troughput_out_vlan100
+      - sensor.network_troughput_in_vlan100
+      - sensor.network_troughput_out_eth0
+      - sensor.network_troughput_in_eth0
+
+      # systeem
+      - sensor.processor_use
+      - sensor.swap_use_percent
+      - sensor.memory_use_percent
+
+
 sensor:
   - platform: template
     sensors:
@@ -5,19 +52,19 @@ sensor:
         friendly_name: "Studeerzolder temperatuur"
         unit_of_measurement: '°C'
         value_template: "{{ state_attr('climate.thermostaat_studeerzolder_climate', 'current_temperature') }}"
-      voordeur_last_opened:
-        friendly_name: 'Voordeur laatst geopend'
-        entity_id: binary_sensor.voordeur
-        icon_template: mdi:glassdoor
-        value_template: '{{ as_timestamp(states.binary_sensor["voordeur"].last_updated) | timestamp_custom("%a %m %b %H:%M", True) }}'
-      openslaande_deuren_last_opened:
-        friendly_name: 'Openslaande deuren laatst geopend'
-        entity_id: binary_sensor.openslaande_deuren
-        icon_template: mdi:glassdoor
-        value_template: '{{ as_timestamp(states.binary_sensor["openslaande_deuren"].last_updated) | timestamp_custom("%a %m %b %H:%M", True) }}'
-      frans_balkon_last_opened:
-        friendly_name: 'Frans balkon laatst geopend'
-        entity_id: binary_sensor.frans_balkon
-        icon_template: mdi:glassdoor
-        value_template: '{{ as_timestamp(states.binary_sensor["frans_balkon"].last_updated) | timestamp_custom("%a %m %b %H:%M", True) }}'
+#      voordeur_last_opened:
+#        friendly_name: 'Voordeur laatst geopend'
+#        entity_id: binary_sensor.voordeur
+#        icon_template: mdi:glassdoor
+#        value_template: '{{ as_timestamp(states.binary_sensor["voordeur"].last_updated) | timestamp_custom("%a %m %b %H:%M", True) }}'
+#      openslaande_deuren_last_opened:
+#        friendly_name: 'Openslaande deuren laatst geopend'
+#        entity_id: binary_sensor.openslaande_deuren
+#        icon_template: mdi:glassdoor
+#        value_template: '{{ as_timestamp(states.binary_sensor["openslaande_deuren"].last_updated) | timestamp_custom("%a %m %b %H:%M", True) }}'
+#      frans_balkon_last_opened:
+#        friendly_name: 'Frans balkon laatst geopend'
+#        entity_id: binary_sensor.frans_balkon
+#        icon_template: mdi:glassdoor
+#        value_template: '{{ as_timestamp(states.binary_sensor["frans_balkon"].last_updated) | timestamp_custom("%a %m %b %H:%M", True) }}'
 
