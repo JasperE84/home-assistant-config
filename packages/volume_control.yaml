@@ -1,0 +1,42 @@
+automation:
+  - alias: Volume harder
+    description: ''
+    trigger:
+    - entity_id: sensor.volumeknop_action
+      platform: state
+      to: 'rotate_right'
+    condition:
+      - condition: template
+        value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'off' }}"
+    action:
+     - service: remote.send_command
+       data:
+         entity_id: remote.woonkamer
+         command: VolumeUp
+         device: ONKYO
+
+  - alias: Volume zachter
+    description: ''
+    trigger:
+    - entity_id: sensor.volumeknop_action
+      platform: state
+      to: 'rotate_left'
+    condition:
+      - condition: template
+        value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'off' }}"
+    action:
+     - service: remote.send_command
+       data:
+         entity_id: remote.woonkamer
+         command: VolumeDown
+         device: ONKYO
+
+
+
+
+#    - service: script.turn_on
+#      data_template:
+#        entity_id: >
+#          {% if state_attr('remote.woonkamer', 'current_activity') != 'Kodi') %} script.script_to_start_kodi_and_then_set_script_running_bool_false
+#          {% else %} script.script_to_just_set_script_running_bool_false
+#          {% endif %}

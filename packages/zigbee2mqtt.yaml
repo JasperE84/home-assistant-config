@@ -40,11 +40,11 @@ script:
         topic: zigbee2mqtt/bridge/config/remove
         payload_template: "{{ states.input_text.zigbee2mqtt_remove.state | string }}"
 
-# Timer for joining time remaining (120 sec = 2 min)
+# Timer for joining time remaining (300 sec = 5 min)
 timer:
   zigbee_permit_join:
     name: Time remaining
-    duration: 120
+    duration: 300
 
 sensor:
   # Sensor for monitoring the bridge state

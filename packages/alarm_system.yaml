@@ -12,6 +12,24 @@ input_boolean:
     icon: mdi:alarm-light
 
 automation:
+  - alias: Alarm altijd inschakelen
+    trigger:
+    - platform: state
+      entity_id: sensor.alarm_knop_boven
+      to: 'on'
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.alarm_altijd
+    - service: script.turn_on
+      entity_id: script.flash_stop
+  - alias: Alarm altijd uitschakelen
+    trigger:
+    - platform: state
+      entity_id: sensor.alarm_knop_boven
+      to: 'off'
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.alarm_altijd
   - alias: Alarm bij automation script
     description: ''
     trigger:
