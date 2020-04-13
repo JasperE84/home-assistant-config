@@ -9,6 +9,6 @@ sensor.network_throughput_in_vlan100:
 script.flash_stop:
   icon: mdi:stop
 script.youtube_playlist_play:
-  icon: mdi:play
+  icon: mdi:remote
 script.chromecast_audio_play:
-  icon: mdi:play
+  icon: mdi:remote
