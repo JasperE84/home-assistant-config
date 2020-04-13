@@ -40,7 +40,7 @@ automation:
         - condition: template
           value_template: "{{ state_attr('sun.sun', 'elevation') < 3 }}"
     action:
-      - service: input_boolean.turn_on
+      - service: input_boolean.turn_off
         entity_id: input_boolean.auto_light_iedereen_afwezig
       - service: scene.apply
         entity_id: scene.relax_licht
