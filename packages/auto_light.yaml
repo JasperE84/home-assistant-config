@@ -38,10 +38,14 @@ automation:
         - condition: state
           entity_id: input_boolean.auto_light_iedereen_afwezig
           state: 'on'
-#        - condition: template
-#          value_template: "{{ state_attr('sun.sun', 'elevation') < 3 }}"
-#        - condition: time
-#          after: '16:45:00'
+        - condition: time
+          after: '16:00:00'
+        - condition: or
+          conditions:
+            - condition: template
+              value_template: "{{ state_attr('sun.sun', 'elevation') < 3 }}"
+            - condition: template
+              value_template: "{{ state_attr('sensor.woonkamer_sensor_illuminance','illuminance_lux') < 3 }}"
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.auto_light_iedereen_afwezig

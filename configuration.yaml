@@ -8,6 +8,9 @@ logger:
   default: info 
   logs:
     homeassistant.helpers.script: debug
+    #homeassistant.components.history: debug
+    #homeassistant.components.recorder: debug
+    #homeassistant.components.unifi: debug
 
 python_script:
 
