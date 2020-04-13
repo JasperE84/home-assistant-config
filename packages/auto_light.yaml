@@ -17,10 +17,11 @@ automation:
       - platform: state
         entity_id: groups.auto_light_persons
         to: not_home
-        for: '00:20:00'
     action:
-      - service: input_boolean.turn_on
-        entity_id: input_boolean.auto_light_iedereen_afwezig
+      - service: script.turn_off
+        entity_id: script.set_iedereen_afwezig_na_delay
+      - service: script.turn_on
+        entity_id: script.set_iedereen_afwezig_na_delay
 
   - alias: Lampen automatisch aanzetten bij thuiskomen
     description: 'Alleen als donker is en meer dan 20min weggeweest'
@@ -39,14 +40,15 @@ automation:
           state: 'on'
         - condition: template
           value_template: "{{ state_attr('sun.sun', 'elevation') < 3 }}"
+        - condition: time
+          after: '16:45:00'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.auto_light_iedereen_afwezig
       - service: scene.apply
         entity_id: scene.relax_licht
       - service: script.turn_on
-        data:
-          entity_id: script.gang_lamp_script
+        entity_id: script.gang_lamp_script
 
   - alias: Gang lamp automatisch aanzetten
     description: 'Zet lamp automatisch aan bij beweging, en na 1min weer uit. Reset 1min timer bij beweging binnen 1min'
@@ -71,3 +73,11 @@ script:
       - service: light.turn_off
         entity_id: light.gang_lamp
 
+  set_iedereen_afwezig_na_delay:
+    sequence:
+      - delay: 00:20:00
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.auto_light_iedereen_afwezig
+
+
+  
