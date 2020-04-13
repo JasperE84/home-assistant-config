@@ -38,14 +38,14 @@ automation:
         - condition: state
           entity_id: input_boolean.auto_light_iedereen_afwezig
           state: 'on'
-        - condition: template
-          value_template: "{{ state_attr('sun.sun', 'elevation') < 3 }}"
-        - condition: time
-          after: '16:45:00'
+#        - condition: template
+#          value_template: "{{ state_attr('sun.sun', 'elevation') < 3 }}"
+#        - condition: time
+#          after: '16:45:00'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.auto_light_iedereen_afwezig
-      - service: scene.apply
+      - service: scene.turn_on
         entity_id: scene.relax_licht
       - service: script.turn_on
         entity_id: script.gang_lamp_script
