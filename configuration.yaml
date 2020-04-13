@@ -62,6 +62,7 @@ remote:
   - platform: harmony
     name: woonkamer
     host: 192.168.84.5
+    delay_secs: 0
 
 mqtt:
   discovery: true

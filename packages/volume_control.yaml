@@ -13,6 +13,7 @@ automation:
        data:
          entity_id: remote.woonkamer
          command: VolumeUp
+         num_repeats: 3
          device: ONKYO
 
   - alias: Volume zachter
@@ -29,9 +30,24 @@ automation:
        data:
          entity_id: remote.woonkamer
          command: VolumeDown
+         num_repeats: 3
          device: ONKYO
 
-
+  - alias: Pause
+    description: ''
+    trigger:
+    - entity_id: sensor.volumeknop_action
+      platform: state
+      to: 'play_pause'
+    condition:
+      - condition: template
+        value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'off' }}"
+    action:
+     - service: remote.send_command
+       data:
+         entity_id: remote.woonkamer
+         command: Pause
+         device: Kodi
 
 
 #    - service: script.turn_on

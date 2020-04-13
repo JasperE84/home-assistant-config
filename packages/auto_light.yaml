@@ -1,0 +1,73 @@
+input_boolean:
+  auto_light_iedereen_afwezig:
+    name: Iedereen meer dan 20min afwezig
+    initial: off
+    icon: mdi:hail
+
+group:
+  auto_light_persons:
+    entities:
+      - person.jasper
+      - person.marielle
+      - person.marieke
+
+automation:
+  - alias: Iedereen afwezig automatisch instellen
+    trigger:
+      - platform: state
+        entity_id: groups.auto_light_persons
+        to: not_home
+        for: '00:20:00'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.auto_light_iedereen_afwezig
+
+  - alias: Lampen automatisch aanzetten bij thuiskomen
+    description: 'Alleen als donker is en meer dan 20min weggeweest'
+    trigger:
+      - entity_id: binary_sensor.openslaande_deuren
+        platform: state
+        to: 'on'
+      - entity_id: binary_sensor.voordeur
+        platform: state
+        to: 'on'
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.auto_light_iedereen_afwezig
+          state: 'on'
+        - condition: template
+          value_template: "{{ state_attr('sun.sun', 'elevation') < 3 }}"
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.auto_light_iedereen_afwezig
+      - service: scene.apply
+        entity_id: scene.relax_licht
+      - service: script.turn_on
+        data:
+          entity_id: script.gang_lamp_script
+
+  - alias: Gang lamp automatisch aanzetten
+    description: 'Zet lamp automatisch aan bij beweging, en na 1min weer uit. Reset 1min timer bij beweging binnen 1min'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.gang_sensor_occupancy
+        to: 'on'
+    action:
+      - service: script.turn_off
+        entity_id: script.gang_lamp_script
+      - service: script.turn_on
+        entity_id: script.gang_lamp_script
+
+script:
+  gang_lamp_script:
+    sequence:
+      - service: light.turn_on
+        entity_id: light.gang_lamp
+        data:
+          brightness: 255
+      - delay: 00:01:00
+      - service: light.turn_off
+        entity_id: light.gang_lamp
+

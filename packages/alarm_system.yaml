@@ -11,6 +11,19 @@ input_boolean:
     initial: off
     icon: mdi:alarm-light
 
+group:
+  alarm_persons:
+    entities:
+      - person.jasper
+      - person.marielle
+      - person.marieke
+  alarm_lights:
+    entities:
+      - light.achter_tv
+      - light.naast_tv
+      - light.salontafel
+      - light.gang_lamp
+
 automation:
   - alias: Alarm altijd inschakelen
     trigger:
@@ -20,8 +33,7 @@ automation:
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.alarm_altijd
-    - service: script.turn_on
-      entity_id: script.flash_stop
+
   - alias: Alarm altijd uitschakelen
     trigger:
     - platform: state
@@ -30,6 +42,9 @@ automation:
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.alarm_altijd
+    - service: script.turn_on
+      entity_id: script.flash_stop
+
   - alias: Alarm bij automation script
     description: ''
     trigger:
@@ -58,13 +73,7 @@ automation:
               entity_id: input_boolean.alarm_bij_afwezig
               state: 'on'
             - condition: state
-              entity_id: device_tracker.jasper_galaxy_s7
-              state: not_home
-            - condition: state
-              entity_id: device_tracker.marielle_xiaomi
-              state: not_home
-            - condition: state
-              entity_id: device_tracker.galaxy_a50
+              entity_id: group.alarm_persons
               state: not_home
         # OF SIMPELWEG ALTIJD INGESCHAKELD  
         - condition: state
@@ -85,6 +94,8 @@ automation:
       entity_id: media_player.mini
       data:
         message: 'alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!'
+    - service: switch.turn_on
+      entity_id: switch.osram_smart_plug_switch
 
   - alias: Flash loop auto-off
     description: ''
@@ -121,10 +132,7 @@ script:
     - service: light.turn_on
       data:
         entity_id: 
-        - light.achter_tv
-        - light.naast_tv
-        - light.salontafel
-        - light.gang_lamp
+        - group.alarm_lights
         brightness_pct: 100
         rgb_color: [255,0,0]
         transition: 0
@@ -132,10 +140,7 @@ script:
     - service: light.turn_off
       data:
         entity_id:
-        - light.achter_tv
-        - light.naast_tv
-        - light.salontafel
-        - light.gang_lamp
+        - group.alarm_lights
         transition: 0
     - service: script.turn_on
       entity_id: script.flash_loop
