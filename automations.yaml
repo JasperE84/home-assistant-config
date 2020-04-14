@@ -11,3 +11,17 @@
       temperature: 14
     entity_id: climate.thermostaat_studeerzolder_climate
     service: climate.set_temperature
+- id: '1586806110083'
+  alias: Bericht aan marielle als Jasper van werk vertrekt
+  description: ''
+  trigger:
+  - entity_id: device_tracker.jasperapp
+    event: leave
+    platform: zone
+    zone: zone.contour_winterswijk
+  condition: []
+  action:
+  - data:
+      message: Jasper is in Winterswijk vertrokkken
+      title: Nu koken jij
+    service: notify.mobile_app_app_marielle_xiaomi

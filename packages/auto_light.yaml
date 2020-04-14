@@ -45,7 +45,7 @@ automation:
             - condition: template
               value_template: "{{ state_attr('sun.sun', 'elevation') < 3 }}"
             - condition: template
-              value_template: "{{ state_attr('sensor.woonkamer_sensor_illuminance','illuminance_lux') < 3 }}"
+              value_template: "{{ state_attr('sensor.woonkamer_sensor_illuminance','illuminance_lux') < 8 }}"
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.auto_light_iedereen_afwezig

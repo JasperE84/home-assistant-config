@@ -119,7 +119,7 @@ zone:
   - name: !secret ctr_zname
     latitude: !secret ctr_zlat
     longitude: !secret ctr_zlong
-    radius: 300
+    radius: 2000
     icon: mdi:factory
 
 group: !include groups.yaml
