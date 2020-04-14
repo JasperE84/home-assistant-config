@@ -33,6 +33,10 @@ automation:
          num_repeats: 3
          device: 'ONKYO'
 
+  #
+  # For the E1744 symfonisk bind to MQTT event. The device state in home assistant becomes play_pause after buttong press.
+  # Problem is it also stays that way. So state trigger won't fire twice. Solution is to bind to MQTT event instead.
+  #
   - alias: Pause
     description: ''
     trigger:
