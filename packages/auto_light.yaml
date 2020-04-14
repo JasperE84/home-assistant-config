@@ -12,19 +12,27 @@ group:
       - person.marieke
 
 automation:
-  - alias: Iedereen afwezig automatisch instellen
+  - alias: 'Iedereen afwezig instellen na timer'
     trigger:
       - platform: state
-        entity_id: groups.auto_light_persons
-        to: not_home
+        entity_id: group.auto_light_persons
+        to: 'not_home'
     action:
       - service: script.turn_off
         entity_id: script.set_iedereen_afwezig_na_delay
       - service: script.turn_on
         entity_id: script.set_iedereen_afwezig_na_delay
 
-  - alias: Lampen automatisch aanzetten bij thuiskomen
-    description: 'Alleen als donker is en meer dan 20min weggeweest'
+  - alias: 'Iedereen afwezig timer uitschakelen bij aanwezig'
+    trigger:
+      - platform: state
+        entity_id: group.auto_light_persons
+        to: 'home'
+    action:
+      - service: script.turn_off
+        entity_id: script.set_iedereen_afwezig_na_delay
+
+  - alias: 'Lampen aan bij deur open en iedereen afwezig'
     trigger:
       - entity_id: binary_sensor.openslaande_deuren
         platform: state
