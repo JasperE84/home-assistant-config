@@ -1,6 +1,5 @@
 automation:
   - alias: Volume harder
-    description: ''
     trigger:
     - entity_id: sensor.volumeknop_action
       platform: state
