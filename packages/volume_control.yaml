@@ -14,7 +14,7 @@ automation:
          entity_id: remote.woonkamer
          command: VolumeUp
          num_repeats: 3
-         device: ONKYO
+         device: 'ONKYO'
 
   - alias: Volume zachter
     description: ''
@@ -31,28 +31,21 @@ automation:
          entity_id: remote.woonkamer
          command: VolumeDown
          num_repeats: 3
-         device: ONKYO
+         device: 'ONKYO'
 
   - alias: Pause
     description: ''
     trigger:
-    - entity_id: sensor.volumeknop_action
-      platform: state
-      to: 'play_pause'
+    - platform: mqtt
+      topic: 'zigbee2mqtt/volumeknop/action'
     condition:
+      - condition: template
+        value_template: '{{ "play_pause" == trigger.payload }}'
       - condition: template
         value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'off' }}"
     action:
-     - service: remote.send_command
-       data:
-         entity_id: remote.woonkamer
-         command: Pause
-         device: Kodi
-
-
-#    - service: script.turn_on
-#      data_template:
-#        entity_id: >
-#          {% if state_attr('remote.woonkamer', 'current_activity') != 'Kodi') %} script.script_to_start_kodi_and_then_set_script_running_bool_false
-#          {% else %} script.script_to_just_set_script_running_bool_false
-#          {% endif %}
+      - service: remote.send_command
+        data:
+          entity_id: remote.woonkamer
+          command: Pause
+          device: 'HTPC'
