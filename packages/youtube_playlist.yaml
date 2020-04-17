@@ -2,6 +2,7 @@ input_select:
   youtube_playlist:
     name: 'Playlist'
     options:
+      - "Peppa Pig"
       - "Dansjes"
       - "Jokie (afleveringen)"
       - "Jokie (dansen)"
@@ -48,6 +49,7 @@ script:
         media_content_id: >
           {% if is_state("input_select.youtube_playlist", "Jokie (afleveringen)") %} plugin://plugin.video.youtube/play/?playlist_id=PLxGx3wMkEOuc8Ek01S9Sb9QrzHUkQzsuK&order=shuffle&play=1
           {% elif is_state("input_select.youtube_playlist", "Jokie (dansen)") %} plugin://plugin.video.youtube/play/?playlist_id=PLxGx3wMkEOueEcIsbBf5pHmqHr8beTi73&order=shuffle&play=1
+          {% elif is_state("input_select.youtube_playlist", "Peppa Pig") %} plugin://plugin.video.youtube/play/?playlist_id=PLyWxLpw3JrS87KqkOycpiUQzjUBnvHKl8&order=shuffle&play=1
           {% elif is_state("input_select.youtube_playlist", "Bing") %} plugin://plugin.video.youtube/play/?playlist_id=PLuyh4PqGZjmUxs0GrvmcRK54in2-blMec&order=shuffle&play=1
           {% elif is_state("input_select.youtube_playlist", "Juf Roos") %} plugin://plugin.video.youtube/play/?playlist_id=PLpb0mdVsIliOgxUhbxvwEEr8M1hPNCBzo&order=shuffle&play=1
           {% elif is_state("input_select.youtube_playlist", "Bumba") %} plugin://plugin.video.youtube/play/?playlist_id=PLporszkvR1VdA-o052J1iKXCRDWhUGHXR&order=shuffle&play=1

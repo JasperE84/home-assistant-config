@@ -16,7 +16,7 @@ automation:
     trigger:
       - platform: state
         entity_id: group.auto_light_persons
-        to: 'not_home'
+        from: 'home'
     action:
       - service: script.turn_off
         entity_id: script.set_iedereen_afwezig_na_delay
@@ -73,6 +73,24 @@ automation:
         entity_id: script.gang_lamp_script
       - service: script.turn_on
         entity_id: script.gang_lamp_script
+
+  - alias: Iedereen afwezig uitschakelen na 1sec
+    trigger:
+    - entity_id: binary_sensor.gang_sensor_occupancy
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.woonkamer_sensor_occupancy
+      platform: state
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.auto_light_iedereen_afwezig
+      state: 'on'
+    action:
+    - delay: 00:00:01
+    - entity_id: input_boolean.auto_light_iedereen_afwezig
+      service: input_boolean.turn_off
+
 
 script:
   gang_lamp_script:
