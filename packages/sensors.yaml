@@ -17,11 +17,11 @@ recorder:
       - person.jasper
       - person.marielle
       - person.marieke
-      - device_tracker.jasper_galaxy_x7
-      - device_tracker.marielle_xiaomi
-      - device_tracker.galaxy_a50
-      - device_tracker.jasperapp
-      - device_tracker.mi_a2_lite
+      - device_tracker.jasper_unifi_galaxy_x7
+      - device_tracker.marielle_app_xiaomi
+      - device_tracker.marieke_unifi_galaxy_250
+      - device_tracker.jasper_app_galaxy_s7
+      - device_tracker.marielle_unifi_xiaomi
 
       # energie
       - sensor.power_consumption

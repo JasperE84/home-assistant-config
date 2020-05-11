@@ -1,0 +1,50 @@
+automation:
+  - alias: Roku TV scene aan
+    trigger:
+    - platform: event
+      event_type: roku_command
+      event_data:
+        source_name: Home Assistant
+        type: keypress
+        key: Home
+    action:
+      - service: scene.turn_on
+        entity_id: scene.tv_licht
+
+  - alias: Roku TV scene uit
+    trigger:
+    - platform: event
+      event_type: roku_command
+      event_data:
+        source_name: Home Assistant
+        type: keypress
+        key: Rev
+    action:
+      - service: scene.turn_off
+        entity_id: scene.tv_licht
+
+  - alias: Roku Relax scene aan
+    trigger:
+    - platform: event
+      event_type: roku_command
+      event_data:
+        source_name: Home Assistant
+        type: keypress
+        key: Fwd
+    action:
+      - service: scene.turn_on
+        entity_id: scene.relax_licht
+
+  - alias: Roku Relax scene uit
+    trigger:
+    - platform: event
+      event_type: roku_command
+      event_data:
+        source_name: Home Assistant
+        type: keypress
+        key: Pay
+    action:
+      - service: scene.turn_off
+        entity_id: scene.relax_licht
+
+

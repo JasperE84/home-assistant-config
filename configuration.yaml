@@ -54,7 +54,6 @@ google_assistant:
       room: Woonkamer
 
   exposed_domains:
-    #- script
     - light
     - scene
 
@@ -66,6 +65,12 @@ remote:
     name: woonkamer
     host: 192.168.84.5
     delay_secs: 0
+
+emulated_roku:
+  servers:
+    - name: Home Assistant
+      listen_port: 9854
+      host_ip: 192.168.84.1
 
 mqtt:
   discovery: true

@@ -15,7 +15,7 @@
   alias: Bericht aan marielle als Jasper van werk vertrekt
   description: ''
   trigger:
-  - entity_id: device_tracker.jasperapp
+  - entity_id: device_tracker.jasper_app_galaxy_s7
     event: leave
     platform: zone
     zone: zone.contour_winterswijk
