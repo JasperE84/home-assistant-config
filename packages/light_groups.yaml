@@ -1,0 +1,13 @@
+group:
+  alarm_lights:
+    entities:
+      - light.achter_tv
+      - light.naast_tv
+      - light.salontafel
+      - light.gang_lamp
+  woonkamer_lights:
+    entities:
+      - light.achter_tv
+      - light.naast_tv
+      - light.salontafel
+

@@ -17,12 +17,6 @@ group:
       - person.jasper
       - person.marielle
       - person.marieke
-  alarm_lights:
-    entities:
-      - light.achter_tv
-      - light.naast_tv
-      - light.salontafel
-      - light.gang_lamp
 
 automation:
   - alias: Alarm altijd inschakelen
@@ -33,6 +27,10 @@ automation:
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.alarm_altijd
+    - service: light.turn_off
+      data:
+        entity_id:
+        - group.alarm_lights
 
   - alias: Alarm altijd uitschakelen
     trigger:
@@ -44,6 +42,11 @@ automation:
       entity_id: input_boolean.alarm_altijd
     - service: script.turn_on
       entity_id: script.flash_stop
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.mini
+        volume_level: .4
+
 
   - alias: Alarm bij automation script
     description: ''

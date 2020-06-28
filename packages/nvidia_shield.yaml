@@ -1,0 +1,29 @@
+script:
+  shield_netflix_on:
+    alias: Netflix op shield
+    sequence:
+    #kills screensaver
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.nvidia_shield
+        command: "HOME"
+
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.nvidia_shield
+        command: "am start -a android.intent.action.VIEW -d -n com.netflix.ninja/.MainActivity"
+
+  shield_kodi_on:
+    alias: Kodi op shield
+    sequence:
+    #kills screensaver
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.nvidia_shield
+        command: "HOME"
+
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.nvidia_shield
+        command: "am start -a android.intent.action.VIEW -d -n org.xbmc.kodi/.Splash"
+

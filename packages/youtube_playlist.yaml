@@ -16,8 +16,8 @@ script:
   kodi_on:
     alias: Kodi inschakelen
     sequence:
-    - condition: template
-      value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'Kodi' }}"
+    #- condition: template
+    #  value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'Kodi' }}"
     - service: remote.turn_on
       entity_id: remote.woonkamer
       data:
@@ -25,10 +25,11 @@ script:
     - delay: 00:00:01
     - wait_template: "{{ state_attr('remote.woonkamer', 'current_activity') == 'Kodi' }}"
       timeout: '00:00:10'
+    - service: script.turn_on
+      entity_id: script.shield_kodi_on
     - wait_template: "{{ not is_state('media_player.kodi', 'off') }}"
       timeout: '00:00:30'
-    - delay: 00:00:10
-
+    - delay: 00:00:02
 
   youtube_playlist_play:
     alias: Speel af op kodi
@@ -44,7 +45,7 @@ script:
     - service: media_player.play_media
       data:
         entity_id: media_player.kodi
-        media_content_type: playlist 
+        media_content_type: playlist
       data_template:
         media_content_id: >
           {% if is_state("input_select.youtube_playlist", "Jokie (afleveringen)") %} plugin://plugin.video.youtube/play/?playlist_id=PLxGx3wMkEOuc8Ek01S9Sb9QrzHUkQzsuK&order=shuffle&play=1

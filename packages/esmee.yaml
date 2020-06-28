@@ -19,7 +19,7 @@ script:
         brightness: 255
 
   jokie_playlist_on:
-    alias: Jolie playlist starten
+    alias: Jokie playlist starten
     sequence:
     - service: input_select.select_option
       data:
