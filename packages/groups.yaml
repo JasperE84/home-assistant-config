@@ -1,4 +1,9 @@
 group:
+  alarm_persons:
+    entities:
+      - person.jasper
+      - person.marielle
+      - person.marieke
   alarm_lights:
     entities:
       - light.achter_tv
@@ -10,4 +15,9 @@ group:
       - light.achter_tv
       - light.naast_tv
       - light.salontafel
+  auto_light_persons:
+    entities:
+      - person.jasper
+      - person.marielle
+      - person.marieke
 

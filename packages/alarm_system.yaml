@@ -11,13 +11,6 @@ input_boolean:
     initial: off
     icon: mdi:alarm-light
 
-group:
-  alarm_persons:
-    entities:
-      - person.jasper
-      - person.marielle
-      - person.marieke
-
 automation:
   - alias: Alarm altijd inschakelen
     trigger:

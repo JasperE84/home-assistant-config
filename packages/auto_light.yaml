@@ -4,13 +4,6 @@ input_boolean:
     initial: off
     icon: mdi:hail
 
-group:
-  auto_light_persons:
-    entities:
-      - person.jasper
-      - person.marielle
-      - person.marieke
-
 automation:
   - alias: 'Iedereen afwezig instellen na timer'
     trigger:
