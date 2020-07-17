@@ -45,10 +45,13 @@ automation:
       - condition: template
         value_template: '{{ "play_pause" == trigger.payload }}'
       - condition: template
-        value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'off' }}"
+        value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'Off' }}"
     action:
       - service: remote.send_command
         data:
           entity_id: remote.woonkamer
           command: Pause
-          device: 'HTPC'
+        data_template:
+          device: >
+            {% if state_attr('remote.woonkamer', 'current_activity') == 'Kodi' %} SHIELD
+            {% else %} Chromecast {% endif %}

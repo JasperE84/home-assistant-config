@@ -15,7 +15,7 @@
   alias: Bericht aan marielle als Jasper van werk vertrekt
   description: ''
   trigger:
-  - entity_id: device_tracker.jasper_app_galaxy_s7
+  - entity_id: device_tracker.jasper_app_galaxy_s7o
     event: leave
     platform: zone
     zone: zone.contour_winterswijk
@@ -24,4 +24,4 @@
   - data:
       message: Jasper is in Winterswijk vertrokkken
       title: Nu koken jij
-    service: notify.mobile_app_app_marielle_xiaomi
+    service: notify.mobile_app_marielle_app_xiaomi
