@@ -16,8 +16,6 @@ script:
   kodi_on:
     alias: Kodi inschakelen
     sequence:
-    #- condition: template
-    #  value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'Kodi' }}"
     - service: remote.turn_on
       entity_id: remote.woonkamer
       data:
@@ -34,10 +32,6 @@ script:
   youtube_playlist_play:
     alias: Speel af op kodi
     sequence:
-    - service: python_script.set_state
-      data_template:
-        entity_id: script.kodi_on
-        state: on
     - service: script.turn_on
       entity_id: script.kodi_on
     - wait_template: "{{ is_state('script.kodi_on', 'off') }}"
@@ -58,3 +52,5 @@ script:
           {% elif is_state("input_select.youtube_playlist", "Dansjes") %} plugin://plugin.video.youtube/play/?playlist_id=PL1vYyr177M8YrP16jo8D7dOh1pWHiOGrx&order=shuffle&play=1
           {% elif is_state("input_select.youtube_playlist", "Zandkasteel") %} plugin://plugin.video.youtube/play/?playlist_id=PLlQTZHuS6dRKbhoUhQcTg3A8LgTAlF8sR&order=shuffle&play=1
           {% endif %}
+
+

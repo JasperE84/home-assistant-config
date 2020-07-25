@@ -9,14 +9,16 @@ script:
     - service: script.turn_on
       entity_id: script.youtube_playlist_play
     - delay: 00:00:10
-    - service: light.turn_on
-      data:
-        entity_id:
-          - light.naast_tv
-          - light.achter_tv
-          - light.salontafel
-        effect: colorloop
-        brightness: 255
+
+#    Colorloop only works with hue hub, not with zigbee2mqtt 
+#    - service: light.turn_on
+#      data:
+#        entity_id:
+#          - light.naast_tv
+#          - light.achter_tv
+#          - light.salontafel
+#        effect: colorloop
+#        brightness: 255
 
   jokie_playlist_on:
     alias: Jokie playlist starten

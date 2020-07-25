@@ -57,13 +57,12 @@ automation:
 
   - alias: Gang lamp automatisch aanzetten
     description: 'Zet lamp automatisch aan bij beweging, en na 1min weer uit. Reset 1min timer bij beweging binnen 1min'
+    mode: restart
     trigger:
       - platform: state
         entity_id: binary_sensor.gang_sensor_occupancy
         to: 'on'
     action:
-      - service: script.turn_off
-        entity_id: script.gang_lamp_script
       - service: script.turn_on
         entity_id: script.gang_lamp_script
 
@@ -87,6 +86,7 @@ automation:
 
 script:
   gang_lamp_script:
+    mode: restart
     sequence:
       - service: light.turn_on
         entity_id: light.gang_lamp
