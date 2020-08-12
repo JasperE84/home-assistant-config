@@ -13,16 +13,17 @@ input_boolean:
     icon: mdi:alarm-light
 
   # Staat het alarm knipperlicht aan of uit
-  flash_loop:
+  alarm_flashing:
+    name: Alarm af laten gaan
     initial: off
     icon: mdi:alarm-light
-
 
 
 automation:
 
   # Ikea knop trigger - alarm aan
   - alias: Alarm altijd inschakelen
+    mode: restart
     trigger:
     - platform: state
       entity_id: sensor.alarm_knop_boven
@@ -37,6 +38,7 @@ automation:
 
   # Ikea knop trigger - alarm uit
   - alias: Alarm altijd uitschakelen
+    mode: queued
     trigger:
     - platform: state
       entity_id: sensor.alarm_knop_boven
@@ -44,12 +46,13 @@ automation:
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.alarm_altijd
-    - service: script.turn_on
-      entity_id: script.flash_stop
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.alarm_flashing
 
   # Alarm sensor trigger
-  - alias: Alarm bij automation script
+  - alias: Alarm sensor triggered automation
     description: ''
+    mode: single
     trigger:
     - entity_id: binary_sensor.gang_sensor_occupancy
       platform: state
@@ -67,44 +70,55 @@ automation:
       platform: state
       to: 'on' 
     condition:
-      condition: or
+      condition: and
       conditions:
-        # OF (BIJ AFWEZIG & NIEMAND AANWEZIG)
-        - condition: and
-          conditions:
-            - condition: state
-              entity_id: input_boolean.alarm_bij_afwezig
-              state: 'on'
-            - condition: state
-              entity_id: group.alarm_persons
-              state: not_home
-        # OF SIMPELWEG ALTIJD INGESCHAKELD  
         - condition: state
-          entity_id: input_boolean.alarm_altijd
-          state: 'on'
+          entity_id: input_boolean.alarm_flashing
+          state: 'off'
+        - condition: or
+          conditions:
+            # OF (BIJ AFWEZIG & NIEMAND AANWEZIG)
+            - condition: and
+              conditions:
+                - condition: state
+                  entity_id: input_boolean.alarm_bij_afwezig
+                  state: 'on'
+                - condition: state
+                  entity_id: group.alarm_persons
+                  state: not_home
+            # OF SIMPELWEG ALTIJD INGESCHAKELD  
+            - condition: state
+              entity_id: input_boolean.alarm_altijd
+              state: 'on'
     action:
-    - service: notify.notify
-      data:
-        message: "Beweging in huis {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
-        title: Alarm
-    - service: script.turn_on
-      entity_id: script.flash_start
+    - service: switch.turn_on
+      entity_id: switch.osram_smart_plug_switch
+
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.alarm_flashing
+
     - service: media_player.volume_set
       data:
         entity_id: media_player.mini
         volume_level: 1
+
     - service: tts.google_translate_say
       entity_id: media_player.mini
       data:
         message: 'alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!, alarm!'
-    - service: switch.turn_on
-      entity_id: switch.osram_smart_plug_switch
+
+    - service: notify.notify
+      data:
+        message: "Beweging in huis {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
+        title: Alarm
+
 
   # Volume van google mini terug naar 40% bij uitschakelen knipperlicht
   - alias: Reset google home volume bij uitschakelen alarmlicht
+    mode: restart
     trigger:
     - platform: state
-      entity_id: input_boolean.flash_loop
+      entity_id: input_boolean.alarm_flashing
       to: 'off'
     action:
     - service: media_player.volume_set
@@ -112,61 +126,54 @@ automation:
         entity_id: media_player.mini
         volume_level: .4
 
-  # Timer zetten om knipperlicht uit te schakelen wanneer deze ingeschakeld wordt
-  - alias: Flash loop auto-off
+  # Alarm script starten bij bool flip
+  - alias: Flash loop start and auto-off
+    mode: restart
     trigger:
-    - entity_id: input_boolean.flash_loop
+    - entity_id: input_boolean.alarm_flashing
       platform: state
       to: 'on'
     action:
-    - timeout: 00:05:00
-      wait_template: ''
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.flash_loop
+    - service: script.turn_on
+      entity_id: script.flash_alarm
 
 script:
-  flash_start:
-    alias: Start alarmlicht
+  flash_alarm_group:
+    mode: restart
     sequence:
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.flash_loop
-    - service: script.turn_on
-      entity_id: script.flash_cycle
+      - service: light.turn_on
+        data:
+          brightness_pct: 100
+          rgb_color: [255,0,0]
+          transition: 0
+        data_template:
+          entity_id: "group.{{ group }}"
+      - repeat:
+          count: "{{ count|int * 2 - 1 }}"
+          sequence:
+            - condition: state
+              entity_id: input_boolean.alarm_flashing
+              state: 'on'
+            - delay: 00:00:05
+            - service: light.turn_on
+              data:
+                transition: 0
+              data_template:
+                entity_id: "group.{{ group }}"
+            - delay: 00:00:05
+            - service: light.turn_off
+              data:
+                transition: 0
+              data_template:
+                entity_id: "group.{{ group }}"
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.alarm_flashing
 
-  flash_stop:
-    alias: Stop alarmlicht
+
+  flash_alarm:
     sequence:
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.flash_loop
-
-  flash_cycle:
-    sequence:
-    - service: light.turn_on
-      data:
-        entity_id: 
-        - group.alarm_lights
-        brightness_pct: 100
-        rgb_color: [255,0,0]
-        transition: 0
-    - delay: 00:00:01
-    - service: light.turn_off
-      data:
-        entity_id:
-        - group.alarm_lights
-        transition: 0
-    - service: script.turn_on
-      entity_id: script.flash_loop
-
-  flash_loop:
-    sequence:
-    - delay: 00:00:02
-    - condition: state
-      entity_id: input_boolean.flash_loop
-      state: 'on'
-    - service: script.turn_on
-      alias: flash_loop
-      entity_id: script.flash_cycle
-
+      - service: script.flash_alarm_group
+        data:
+          group: alarm_lights
+          count: 10
 
