@@ -109,8 +109,44 @@ automation:
 
     - service: notify.notify
       data:
-        message: "Beweging in huis {{ now().strftime('%H:%M:%S (%Y-%m-%d)') }}"
         title: Alarm
+      data_template:
+        message: >
+          Beweging in huis {{ now().strftime('%H:%M:%S (%m-%d)') }}, 
+          {%- for entity_id in states.group.alarm_persons.attributes.entity_id -%}
+            {%- if is_state(entity_id, "home") -%} 
+              {%- if not loop.first %}, {% endif -%}
+              {{ state_attr(entity_id, "friendly_name") }} is thuis 
+            {%- endif -%} 
+          {%- endfor %}
+
+  # Alarm auto-uit als getriggerd en daarna iemand uit alarm groep thuiskomt (als wifi verbinding later gemaakt wordt)
+  - alias: Flash loop smart-off
+    mode: restart
+    trigger:
+    - platform: state
+      entity_id: group.alarm_persons
+      to: home
+    condition:
+    - condition: state
+      entity_id: input_boolean.alarm_flashing
+      state: 'on'
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.alarm_flashing
+
+    - service: notify.notify
+      data:
+        title: Alarm
+      data_template:
+        message: >
+          {%- for entity_id in states.group.alarm_persons.attributes.entity_id -%}
+            {%- if is_state(entity_id, "home") -%}
+              {%- if not loop.first %}, {% endif -%}
+              {{ state_attr(entity_id, "friendly_name") }} is nu thuis
+            {%- endif -%}
+          {%- endfor %}
+
 
 
   # Volume van google mini terug naar 40% bij uitschakelen knipperlicht
