@@ -120,6 +120,35 @@ automation:
             {%- endif -%} 
           {%- endfor %}
 
+    - service: notify.alarm_apps
+      #data:
+        #title: Alarm
+        #color: '#F50000'
+        #sticky: 'true'
+        #channel: HuisAlarm
+        #importance: max
+        #vibrationPattern: "100, 1000, 100, 1000, 100, 1000, 100, 1000, 100, 1000, 100, 1000, 100, 1000"
+        #ledColor: "red"
+
+      data_template:
+        data:
+          title: Alarm
+          color: '#F50000'
+          sticky: 'true'
+          channel: HuisAlarm
+          importance: max
+          vibrationPattern: "100, 1000, 100, 1000, 100, 1000, 100, 1000, 100, 1000, 100, 1000, 100, 1000"
+          ledColor: "red"
+        message: >
+          Beweging in huis {{ now().strftime('%H:%M:%S (%m-%d)') }},
+          {%- for entity_id in states.group.alarm_persons.attributes.entity_id -%}
+            {%- if is_state(entity_id, "home") -%}
+              {%- if not loop.first %}, {% endif -%}
+              {{ state_attr(entity_id, "friendly_name") }} is thuis
+            {%- endif -%}
+          {%- endfor %}
+
+
   # Alarm auto-uit als getriggerd en daarna iemand uit alarm groep thuiskomt (als wifi verbinding later gemaakt wordt)
   - alias: Flash loop smart-off
     mode: restart

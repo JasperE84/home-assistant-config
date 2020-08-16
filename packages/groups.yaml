@@ -21,3 +21,10 @@ group:
       - person.marielle
       - person.marieke
 
+notify:
+  - name: alarm_apps
+    platform: group
+    services:
+      - service: mobile_app_app_jasper_sm_g935f
+      - service: mobile_app_marielle_app_xiaomi
+
