@@ -94,6 +94,12 @@ webhook:
 zigbee2mqtt_networkmap:
    #topic: your topic (optional, default zigbee2mqtt)
 
+#smartthinq:
+#  token: !secret smartthinq_token
+#  region: NL
+#  language: nl-NL
+
+
 panel_iframe:
   networkmap:
     title: 'Zigbee Map'
@@ -102,7 +108,7 @@ panel_iframe:
 
 sensor:
   - platform: dsmr
-    port: /dev/ttyUSB0
+    port: /dev/ttyUSBp1
     dsmr_version: 5
 
   - platform: systemmonitor

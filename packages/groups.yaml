@@ -25,6 +25,6 @@ notify:
   - name: alarm_apps
     platform: group
     services:
-      - service: mobile_app_app_jasper_sm_g935f
-      - service: mobile_app_marielle_app_xiaomi
+      - service: mobile_app_jasper_pixel_4a
+      - service: mobile_app_marielle_pixel_3a
 
