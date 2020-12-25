@@ -12,3 +12,7 @@ script.youtube_playlist_play:
   icon: mdi:remote
 script.chromecast_audio_play:
   icon: mdi:remote
+sensor.gang_sensor_illuminance_lux:
+  friendly_name: Gang lichtsterkte lux
+sensor.woonkamer_sensor_illuminance_lux:
+  friendly_name: Woonkamer lichtsterkte lux

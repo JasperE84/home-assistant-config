@@ -4,12 +4,14 @@ group:
       - person.jasper
       - person.marielle
       - person.marieke
+      - person.gerry
   alarm_lights:
     entities:
       - light.achter_tv
       - light.naast_tv
       - light.salontafel
       - light.gang_lamp
+      - light.buitenlamp_achtertuin_light
   woonkamer_lights:
     entities:
       - light.achter_tv
@@ -20,6 +22,7 @@ group:
       - person.jasper
       - person.marielle
       - person.marieke
+      - person.gerry
 
 notify:
   - name: alarm_apps
