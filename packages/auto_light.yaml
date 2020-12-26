@@ -155,6 +155,18 @@ script:
         entity_id: light.buitenlamp_achtertuin_light
         data:
           brightness: 255
+          effect: none
+          transition: 1
+          hs_color:
+          - 37.403
+          - 60.392
+          rgb_color:
+          - 255
+          - 197
+          - 101
+          xy_color:
+          - 0.482
+          - 0.414
       - delay: 00:15:00
       - service: light.turn_off
         entity_id: light.buitenlamp_achtertuin_light

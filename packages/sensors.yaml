@@ -1,22 +1,31 @@
 # Specifically include sensors to log to improve NAS system performance
 recorder:
   #db_url: !secret db_url
-  purge_keep_days: 3
+  purge_keep_days: 2
   include:
     entities:
       # beweging
-#      - binary_sensor.gang_sensor_occupancy
-#      - binary_sensor.woonkamer_sensor_occupancy
+      #- binary_sensor.gang_sensor_occupancy
+      #- binary_sensor.woonkamer_sensor_occupancy
 
       # deuren
-#      - binary_sensor.voordeur
-#      - binary_sensor.openslaande_deuren
-#      - binary_sensor.frans_balkon
+      #- binary_sensor.voordeur
+      #- binary_sensor.openslaande_deuren
+      #- binary_sensor.frans_balkon
 
       # aanwezig
       - person.jasper
       - person.marielle
       - person.marieke
+
+      # locatie
+      - device_tracker.passat
+      - device_tracker.pixel_3a
+      - device_tracker.pixel_4a
+
+      # wifi
+      - device_tracker.unifi_ae_f1_53_02_6d_4c_default #pixel_4a
+      - device_tracker.unifi_c2_87_b1_40_1f_4f_default #pixel_3a
 
       # energie
       - sensor.power_consumption
@@ -29,15 +38,15 @@ recorder:
       - sensor.woonkamer_sensor_temperature
 
       # netwerk
-#      - sensor.network_throughput_out_vlan100
-#      - sensor.network_throughput_in_vlan100
-#      - sensor.network_throughput_out_eth0
-#      - sensor.network_throughput_in_eth0
+      #- sensor.network_throughput_out_vlan100
+      #- sensor.network_throughput_in_vlan100
+      #- sensor.network_throughput_out_eth0
+      #- sensor.network_throughput_in_eth0
       
       # systeem
       - sensor.processor_use
-#      - sensor.swap_use_percent
-#      - sensor.memory_use_percent
+      #- sensor.swap_use_percent
+      #- sensor.memory_use_percent
 
 
 sensor:

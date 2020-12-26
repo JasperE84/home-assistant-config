@@ -65,14 +65,6 @@ remote:
     host: 192.168.84.5
     delay_secs: 0
 
-#camera:
-#  - platform: uvc
-#    nvr: 192.168.84.1
-#    port: 7443
-#    key: !secret unifi_video_api_key
-#    password: !secret unifi_video_password
-#    ssl: false
-
 emulated_roku:
   servers:
     - name: Home Assistant
@@ -93,12 +85,6 @@ webhook:
 
 zigbee2mqtt_networkmap:
    #topic: your topic (optional, default zigbee2mqtt)
-
-#smartthinq:
-#  token: !secret smartthinq_token
-#  region: NL
-#  language: nl-NL
-
 
 panel_iframe:
   networkmap:
@@ -145,6 +131,16 @@ zone:
     longitude: !secret ctr_zlong
     radius: 2000
     icon: mdi:factory
+
+volkswagencarnet:
+    username: !secret vw_usr
+    password: !secret vw_pwd
+    spin: !secret vw_spin
+    scandinavian_miles: false
+    scan_interval:
+        minutes: 2
+    name:
+        !secret vw_vin: 'Passat'
 
 group: !include groups.yaml
 automation: !include automations.yaml
