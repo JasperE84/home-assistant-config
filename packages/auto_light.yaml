@@ -166,7 +166,7 @@ script:
           - condition: or
             conditions:
 
-              # Buitenlamp aan EN timer loopt (dan willen we timer resetten) EN lamp staat op dimstand
+              # Buitenlamp aan EN timer loopt (dan willen we timer resetten)
               - condition: and
                 conditions:
                   - condition: state
@@ -175,13 +175,15 @@ script:
                   - condition: state
                     entity_id: 'script.buitenlamp_achtertuin_timer'
                     state: 'on'
-                  - condition: template
-                    value_template: "{{ state_attr('light.buitenlamp_achtertuin_light', 'brightness') == 120 }}"
 
               # Buitenlamp uit (dan willen we timer starten)
               - condition: state
                 entity_id: 'light.buitenlamp_achtertuin_light'
                 state: 'off'
+
+              # Buitenlamp op dimstand (dan willen we timer starten ondanks dat de lamp aan staat)
+              - condition: template
+                value_template: "{{ state_attr('light.buitenlamp_achtertuin_light', 'brightness') == 120 }}"
  
       - service: script.turn_on
         entity_id: script.buitenlamp_achtertuin_timer
