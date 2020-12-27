@@ -1,11 +1,16 @@
 input_boolean:
   auto_light_iedereen_afwezig:
-    name: Iedereen meer dan 20min afwezig
+    name: 'Iedereen meer dan 20min afwezig'
     initial: off
     icon: mdi:hail
 
+  auto_light_buitenlamp_altijd_aan:
+    name: 'Buitenlamp dimstand als het donker is'
+    initial: on
+    icon: mdi:av-timer
+
 automation:
-  - alias: 'Iedereen afwezig instellen na timer'
+  - alias: '20min afw: Bij vertrek, timer starten om 20min afwezig te bepalen'
     trigger:
       - platform: state
         entity_id: group.auto_light_persons
@@ -16,7 +21,7 @@ automation:
       - service: script.turn_on
         entity_id: script.set_iedereen_afwezig_na_delay
 
-  - alias: 'Iedereen afwezig timer uitschakelen bij aanwezig'
+  - alias: '20min afw: Bij thuiskomst, timer stoppen om 20min afwezig te bepalen'
     trigger:
       - platform: state
         entity_id: group.auto_light_persons
@@ -25,7 +30,7 @@ automation:
       - service: script.turn_off
         entity_id: script.set_iedereen_afwezig_na_delay
 
-  - alias: 'Lampen aan bij deur open en iedereen afwezig'
+  - alias: '20min afw: Lampen aan bij deur open en iedereen afwezig'
     trigger:
       - entity_id: binary_sensor.openslaande_deuren
         platform: state
@@ -55,7 +60,24 @@ automation:
       - service: script.turn_on
         entity_id: script.gang_lamp_script
 
-  - alias: Gang lamp automatisch aanzetten
+  - alias: '20 min afw: Iedereen afwezig uitschakelen na 1sec'
+    trigger:
+    - entity_id: binary_sensor.gang_sensor_occupancy
+      platform: state
+      to: 'on'
+    - entity_id: binary_sensor.woonkamer_sensor_occupancy
+      platform: state
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: input_boolean.auto_light_iedereen_afwezig
+      state: 'on'
+    action:
+    - delay: 00:00:01
+    - entity_id: input_boolean.auto_light_iedereen_afwezig
+      service: input_boolean.turn_off
+
+  - alias: 'Gang lamp automatisch aanzetten'
     description: 'Zet lamp automatisch aan bij beweging, en na 1min weer uit. Reset 1min timer bij beweging binnen 1min'
     mode: restart
     trigger:
@@ -66,8 +88,8 @@ automation:
       - service: script.turn_on
         entity_id: script.gang_lamp_script
 
-  - alias: Buitenlamp automatisch aanzetten
-    description: 'Zet lamp automatisch aan bij achterdeur open of thuiskomst, en na 15min weer uit.'
+  - alias: 'Buitenlamp automatisch fel zetten bij deur open en thuiskomst'
+    description: 'Zet lamp automatisch fel zetten bij achterdeur open of thuiskomst, en na 15min weer naar default.'
     mode: restart
     trigger:
       - entity_id: binary_sensor.openslaande_deuren
@@ -87,25 +109,35 @@ automation:
         entity_id: device_tracker.passat
     action:
       - service: script.turn_on
-        entity_id: script.buitenlamp_achtertuin_script
+        entity_id: script.buitenlamp_achtertuin_fel_script
 
-  - alias: Iedereen afwezig uitschakelen na 1sec
+  - alias: 'Buitenlamp automatisch aan en uit toepassen, bij zonnestand, instelling trigger'
     trigger:
-    - entity_id: binary_sensor.gang_sensor_occupancy
-      platform: state
-      to: 'on'
-    - entity_id: binary_sensor.woonkamer_sensor_occupancy
-      platform: state
-      to: 'on'
-    condition:
-    - condition: state
-      entity_id: input_boolean.auto_light_iedereen_afwezig
-      state: 'on'
+      - platform: state
+        entity_id: input_boolean.auto_light_buitenlamp_altijd_aan
+        to: 'off'
+      - platform: state
+        entity_id: input_boolean.auto_light_buitenlamp_altijd_aan
+        to: 'on'
+      - platform: numeric_state
+        entity_id: sun.sun
+        attribute: elevation
+        below: 0
+      - platform: numeric_state
+        entity_id: sun.sun
+        attribute: elevation
+        above: 0
     action:
-    - delay: 00:00:01
-    - entity_id: input_boolean.auto_light_iedereen_afwezig
-      service: input_boolean.turn_off
+      - service: script.turn_on
+        entity_id: script.buitenlamp_achtertuin_naar_default
 
+  - alias: 'Buitenlamp uitzetten om 02:00 snachts'
+    trigger:
+      - platform: time
+        at: '02:00:00'
+    action:
+      - service: script.turn_on
+        entity_id: script.buitenlamp_achtertuin_uitzetten
 
 script:
   gang_lamp_script:
@@ -119,7 +151,7 @@ script:
       - service: light.turn_off
         entity_id: light.gang_lamp
 
-  buitenlamp_achtertuin_script:
+  buitenlamp_achtertuin_fel_script:
     mode: parallel
     sequence:
       # EN
@@ -134,7 +166,7 @@ script:
           - condition: or
             conditions:
 
-              # Buitenlamp aan EN timer loopt (dan willen we timer resetten)
+              # Buitenlamp aan EN timer loopt (dan willen we timer resetten) EN lamp staat op dimstand
               - condition: and
                 conditions:
                   - condition: state
@@ -143,6 +175,8 @@ script:
                   - condition: state
                     entity_id: 'script.buitenlamp_achtertuin_timer'
                     state: 'on'
+                  - condition: template
+                    value_template: "{{ state_attr('light.buitenlamp_achtertuin_light', 'brightness') == 120 }}"
 
               # Buitenlamp uit (dan willen we timer starten)
               - condition: state
@@ -166,6 +200,36 @@ script:
           - 197
           - 101
       - delay: 00:15:00
+      - service: script.turn_on
+        entity_id: script.buitenlamp_achtertuin_naar_default
+
+  buitenlamp_achtertuin_naar_default:
+    mode: restart
+    sequence:
+      - service_template: >
+          {% if(state_attr('sun.sun', 'elevation') < 0) and is_state('input_boolean.auto_light_buitenlamp_altijd_aan', 'on')  %} script.buitenlamp_achtertuin_naar_dimstand
+          {% else %}  script.buitenlamp_achtertuin_uitzetten {% endif %} 
+
+  buitenlamp_achtertuin_naar_dimstand:
+    mode: restart
+    sequence:
+      - condition: state
+        entity_id: input_boolean.auto_light_buitenlamp_altijd_aan
+        state: 'on'
+      - service: light.turn_on
+        entity_id: light.buitenlamp_achtertuin_light
+        data:
+          brightness: 120
+          effect: none
+          transition: 1
+          rgb_color:
+          - 255
+          - 197
+          - 101
+
+  buitenlamp_achtertuin_uitzetten:
+    mode: restart
+    sequence:
       - service: light.turn_off
         entity_id: light.buitenlamp_achtertuin_light
 
