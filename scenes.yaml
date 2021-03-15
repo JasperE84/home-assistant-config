@@ -23,7 +23,7 @@
       - 0.502
       - 0.416
     light.naast_tv:
-      brightness: 144
+      brightness: 194
       effect: none
       effect_list:
       - colorloop

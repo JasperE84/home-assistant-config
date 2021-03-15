@@ -39,7 +39,7 @@ script:
     - service: media_player.play_media
       data:
         entity_id: media_player.kodi
-        media_content_type: playlist
+        media_content_type: video
       data_template:
         media_content_id: >
           {% if is_state("input_select.youtube_playlist", "Jokie (afleveringen)") %} plugin://plugin.video.youtube/play/?playlist_id=PLxGx3wMkEOuc8Ek01S9Sb9QrzHUkQzsuK&order=shuffle&play=1

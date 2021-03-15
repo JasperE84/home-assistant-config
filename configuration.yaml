@@ -16,8 +16,6 @@ python_script:
 
 http:
   server_port: !secret server_port 
-  ssl_certificate: /home/ha/cert/fullchain.pem
-  ssl_key: /home/ha/cert/privkey.pem
   cors_allowed_origins:
     - https://google.com
     - https://www.home-assistant.io
@@ -59,21 +57,16 @@ google_assistant:
 tts:
   - platform: google_translate
 
-remote:
-  - platform: harmony
-    name: woonkamer
-    host: 192.168.84.5
-    delay_secs: 0
-
 emulated_roku:
   servers:
     - name: Home Assistant
-      host_ip: 192.168.84.1
+      host_ip: 192.168.84.252
+      advertise_ip: 192.168.84.252
       listen_port: 8060
 
 mqtt:
   discovery: true
-  broker: 192.168.84.1  # Remove if you want to use builtin-in MQTT broker
+  broker: 192.168.84.252  # Remove if you want to use builtin-in MQTT broker
   birth_message:
     topic: 'hass/status'
     payload: 'online'
@@ -84,7 +77,6 @@ mqtt:
 webhook:
 
 zigbee2mqtt_networkmap:
-   #topic: your topic (optional, default zigbee2mqtt)
 
 panel_iframe:
   networkmap:
@@ -102,14 +94,6 @@ sensor:
       - type: processor_use
       - type: memory_use_percent
       - type: swap_use_percent
-      - type: throughput_network_in
-        arg: eth0
-      - type: throughput_network_out
-        arg: eth0
-      - type: throughput_network_in
-        arg: vlan100
-      - type: throughput_network_out
-        arg: vlan100
 
 media_player:
   - platform: kodi
@@ -118,11 +102,10 @@ media_player:
     name: Kodi
     username: !secret kodi_user
     password: !secret kodi_pass 
+
   - platform: androidtv
     host: 192.168.84.7
     name: "NVidia Shield"
-    #adb_server_ip: 127.0.0.1
-    #adb_server_port: 5037
 
 
 zone:

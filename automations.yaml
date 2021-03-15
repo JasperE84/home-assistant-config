@@ -7,10 +7,11 @@
   condition: []
   action:
   - data:
-      hvac_mode: 'off'
-      temperature: 14
+      hvac_mode: auto
+      temperature: 16
     entity_id: climate.thermostaat_studeerzolder_climate
     service: climate.set_temperature
+  mode: single
 - id: '1586806110083'
   alias: Bericht aan Marielle als Jasper van werk vertrekt
   description: ''
