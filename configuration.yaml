@@ -8,9 +8,6 @@ logger:
   default: info 
   logs:
     homeassistant.helpers.script: debug
-    #homeassistant.components.history: debug
-    #homeassistant.components.recorder: debug
-    #homeassistant.components.unifi: debug
 
 python_script:
 
@@ -61,12 +58,11 @@ emulated_roku:
   servers:
     - name: Home Assistant
       host_ip: 192.168.84.252
-      advertise_ip: 192.168.84.252
       listen_port: 8060
 
 mqtt:
   discovery: true
-  broker: 192.168.84.252  # Remove if you want to use builtin-in MQTT broker
+  broker: 192.168.84.252
   birth_message:
     topic: 'hass/status'
     payload: 'online'
@@ -96,13 +92,6 @@ sensor:
       - type: swap_use_percent
 
 media_player:
-  - platform: kodi
-    host: 192.168.84.7 
-    port: 14864
-    name: Kodi
-    username: !secret kodi_user
-    password: !secret kodi_pass 
-
   - platform: androidtv
     host: 192.168.84.7
     name: "NVidia Shield"
@@ -114,16 +103,6 @@ zone:
     longitude: !secret ctr_zlong
     radius: 2000
     icon: mdi:factory
-
-volkswagencarnet:
-    username: !secret vw_usr
-    password: !secret vw_pwd
-    spin: !secret vw_spin
-    scandinavian_miles: false
-    scan_interval:
-        minutes: 2
-    name:
-        !secret vw_vin: 'Passat'
 
 group: !include groups.yaml
 automation: !include automations.yaml
