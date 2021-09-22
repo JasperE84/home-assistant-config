@@ -18,6 +18,9 @@ http:
     - https://www.home-assistant.io
   ip_ban_enabled: true
   login_attempts_threshold: 5
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.16.0.0/12
 
 google_assistant:
   project_id: !secret google_assistant_project_id 
@@ -89,6 +92,31 @@ media_player:
   - platform: androidtv
     host: 192.168.84.7
     name: "NVidia Shield"
+
+influxdb:
+  host: 192.168.84.252
+  api_version: 2
+  ssl: false
+  port: 8086
+  token: '0DiSXCNRf2mIiQK9BfsX15NFT1ZNwqQhR4qECRJLe1lczD8wmSsKge0JZ2F8THUi8zs-UycJPTN99YWG5vc3IA=='
+  organization: 'acme'
+  bucket: 'hass'
+  include:
+    entities:
+      - binary_sensor.frans_balkon
+      - binary_sensor.voordeur
+      - binary_sensor.openslaande_deuren
+      - group.alarm_persons
+      - device_tracker.passat_position
+    entity_globs:
+      - binary_sensor.*_occupancy
+      - sensor.energy*
+      - sensor.power*
+      - sensor.*temperature
+      - sensor.*odometer
+      - sensor.airconditioner_vermogen
+      - person.*
+      - input_boolean.alarm*
 
 zone:
   - name: !secret ctr_zname

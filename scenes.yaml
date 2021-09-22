@@ -2,119 +2,211 @@
   name: Relax licht
   entities:
     light.achter_tv:
-      brightness: 144
-      effect: none
+      min_mireds: 153
+      max_mireds: 500
       effect_list:
-      - colorloop
-      - random
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 141
+      hs_color:
+      - 37.6
+      - 58.824
+      rgb_color:
+      - 255
+      - 198
+      - 104
+      xy_color:
+      - 0.478
+      - 0.412
+      color_temp: 400
+      color:
+        x: 0.476993298233858
+        y: 0.413675289942435
+      linkquality: 33
+      state: 'on'
+      update:
+        state: idle
+      update_available: false
       friendly_name: Achter TV
-      hs_color:
-      - 36.706
-      - 66.667
-      max_mireds: 500
-      min_mireds: 153
-      rgb_color:
-      - 255
-      - 189
-      - 84
-      state: 'on'
       supported_features: 63
-      xy_color:
-      - 0.502
-      - 0.416
     light.naast_tv:
-      brightness: 194
-      effect: none
-      effect_list:
-      - colorloop
-      - random
-      friendly_name: Naast TV
-      hs_color:
-      - 36.706
-      - 66.667
-      max_mireds: 500
       min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 139
+      hs_color:
+      - 37.6
+      - 58.824
       rgb_color:
       - 255
-      - 189
-      - 84
-      state: 'on'
-      supported_features: 63
+      - 198
+      - 104
       xy_color:
-      - 0.502
-      - 0.416
+      - 0.478
+      - 0.412
+      color_temp: 399
+      color:
+        x: 0.476993298233858
+        y: 0.413675289942435
+      linkquality: 135
+      state: 'on'
+      update:
+        state: idle
+      update_available: false
+      friendly_name: Naast erker
+      supported_features: 63
     light.salontafel:
-      brightness: 9
-      effect: none
+      min_mireds: 153
+      max_mireds: 500
       effect_list:
-      - colorloop
-      - random
-      friendly_name: Salontafel
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: xy
+      brightness: 9
       hs_color:
       - 36.706
       - 66.667
-      max_mireds: 500
-      min_mireds: 153
       rgb_color:
       - 255
       - 189
       - 84
-      state: 'on'
-      supported_features: 63
       xy_color:
       - 0.502
       - 0.416
+      color_temp: 360
+      color:
+        x: 0.502
+        y: 0.416
+      linkquality: 135
+      state: 'on'
+      update:
+        state: idle
+      update_available: false
+      friendly_name: Salontafel
+      supported_features: 63
 - id: '1585831247095'
   name: TV licht
   entities:
     light.achter_tv:
-      brightness: 115
-      effect: none
+      min_mireds: 153
+      max_mireds: 500
       effect_list:
-      - colorloop
-      - random
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 167
+      hs_color:
+      - 35.426
+      - 73.725
+      rgb_color:
+      - 255
+      - 178
+      - 67
+      xy_color:
+      - 0.525
+      - 0.413
+      color_temp: 500
+      color:
+        x: 0.526676280311873
+        y: 0.41329727450763
+      linkquality: 135
+      state: 'on'
+      update:
+        state: idle
+      update_available: false
       friendly_name: Achter TV
-      hs_color:
-      - 33.555
-      - 82.745
-      max_mireds: 500
-      min_mireds: 153
-      rgb_color:
-      - 255
-      - 162
-      - 44
-      state: 'on'
       supported_features: 63
-      xy_color:
-      - 0.556
-      - 0.404
     light.naast_tv:
-      brightness: 115
-      effect: none
-      effect_list:
-      - colorloop
-      - random
-      friendly_name: Naast TV
-      hs_color:
-      - 33.555
-      - 82.745
-      max_mireds: 500
       min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: color_temp
+      brightness: 3
+      hs_color:
+      - 35.426
+      - 73.725
       rgb_color:
       - 255
-      - 162
-      - 44
-      state: 'on'
-      supported_features: 63
+      - 178
+      - 67
       xy_color:
-      - 0.556
-      - 0.404
+      - 0.525
+      - 0.413
+      color_temp: 500
+      color:
+        x: 0.526676280311873
+        y: 0.41329727450763
+      linkquality: 135
+      state: 'on'
+      update:
+        state: idle
+      update_available: false
+      friendly_name: Naast erker
+      supported_features: 63
     light.salontafel:
-      effect_list:
-      - colorloop
-      - random
-      friendly_name: Salontafel
-      max_mireds: 500
       min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      - hs
+      brightness: 9
+      color:
+        x: 0.502
+        y: 0.416
+      color_mode: xy
+      color_temp: 360
+      linkquality: 135
       state: 'off'
+      update:
+        state: idle
+      update_available: false
+      friendly_name: Salontafel
       supported_features: 63

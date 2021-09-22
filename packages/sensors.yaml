@@ -2,42 +2,42 @@
 recorder:
   db_url: !secret db_url
   purge_keep_days: 10
-  include:
-    entities:
-      # beweging
-      - binary_sensor.gang_sensor_occupancy
-      - binary_sensor.woonkamer_sensor_occupancy
 
+  include:
+    entity_globs:
+      - sensor.power*
+      - sensor.energy*
+      - binary_sensor.*occupancy
+      - person.*
+      
+    entities:
       # deuren
       - binary_sensor.voordeur
       - binary_sensor.openslaande_deuren
       - binary_sensor.frans_balkon
 
-      # aanwezig
-      - person.jasper
-      - person.marielle
-      - person.marieke
-      - person.gerry
-    
       # locatie
       - device_tracker.passat
       - device_tracker.pixel_3a
       - device_tracker.pixel_4a
+      - device_tracker.gpslogger_pixel3a
+      - device_tracker.gpslogger_pixel4a
 
       # wifi
       - device_tracker.unifi_jasper_pixel_4a
       - device_tracker.unifi_marielle_pixel_3a
 
-      # energie
-      - sensor.power_consumption
-      - sensor.power_production
+      - sensor.airconditioner_vermogen
 
       # klimaat
       - climate.thermostaat_studeerzolder_climate
       - sensor.studeerzolder_temperature
+      - sensor.zolder_trappenhuis_temperature
       - sensor.gang_sensor_temperature
       - sensor.woonkamer_sensor_temperature
-
+      
+      - sensor.ferry_portier_realfeel_temperature
+        
 sensor:
   - platform: template
     sensors:
@@ -45,5 +45,19 @@ sensor:
         friendly_name: "Studeerzolder temperatuur"
         unit_of_measurement: '°C'
         value_template: "{{ state_attr('climate.thermostaat_studeerzolder_climate', 'current_temperature') }}"
+
+  - platform: template
+    sensors:
+      zolder_trappenhuis_temperature:
+        friendly_name: "Trappenhuis zoldertemperatuur"
+        unit_of_measurement: '°C'
+        value_template: "{{ state_attr('climate.airconditioner', 'current_temperature') }}"
+
+  - platform: template
+    sensors:
+      airconditioner_vermogen:
+        friendly_name: "Airconditioner vermogen"
+        unit_of_measurement: 'W'
+        value_template: "{{ state_attr('climate.airconditioner', 'power') }}"
 
 

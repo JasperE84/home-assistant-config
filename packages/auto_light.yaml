@@ -68,6 +68,9 @@ automation:
     - entity_id: binary_sensor.woonkamer_sensor_occupancy
       platform: state
       to: 'on'
+    - entity_id: binary_sensor.overloop_occupancy
+      platform: state
+      to: 'on'
     condition:
     - condition: state
       entity_id: input_boolean.auto_light_iedereen_afwezig
@@ -84,6 +87,9 @@ automation:
       - platform: state
         entity_id: binary_sensor.gang_sensor_occupancy
         to: 'on'
+      - platform: state
+        entity_id: binary_sensor.overloop_occupancy
+        to: 'on'
     action:
       - service: script.turn_on
         entity_id: script.gang_lamp_script
@@ -98,15 +104,11 @@ automation:
       - platform: zone
         event: enter
         zone: zone.home
-        entity_id: device_tracker.pixel_4a
+        entity_id: device_tracker.gpslogger_pixel4a
       - platform: zone
         event: enter
         zone: zone.home
-        entity_id: device_tracker.pixel_3a
-      - platform: zone
-        event: enter
-        zone: zone.home
-        entity_id: device_tracker.passat
+        entity_id: device_tracker.gpslogger_pixel3a
     action:
       - service: script.turn_on
         entity_id: script.buitenlamp_achtertuin_fel_script

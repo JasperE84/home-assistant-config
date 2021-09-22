@@ -1,10 +1,21 @@
 group:
+
+  #
+  # Alarm settings
+  #
+
+  # Alarm will not trigger in aut-on modus if any of the following
+  # persons is at home
+  #
   alarm_persons:
     entities:
       - person.jasper
       - person.marielle
       - person.marieke
       - person.gerry
+
+  # These lights will flash, red if supported, when alarm triggers
+  #
   alarm_lights:
     entities:
       - light.achter_tv
@@ -12,19 +23,43 @@ group:
       - light.salontafel
       - light.gang_lamp
       - light.buitenlamp_achtertuin_light
+
+
+  #
+  # Auto-light settings
+  #
+
+  # These lights will automatically turn on if dark and auto_light_persons
+  # return home after all auto_ligt_persons have been away from home for 
+  # more than 30 mins
+  # 
+  # Note: This group does not affect the script that turns on exterior lights
+  #       when returning home. Entities triggering exterior lights on returning home
+  #       are scripted in auto_lights.yaml (as it should trigger on any single member
+  #       of group returning home, also if other group members are already home and
+  #       the entire group's state has remained 'home')
+  #
   woonkamer_lights:
     entities:
       - light.achter_tv
       - light.naast_tv
       - light.salontafel
+
+
+  # Note: auto_light_persons is set to GpsLogger tracker data only
+  #       because wifi-presence detection shows away from home when 
+  #       phone is turned off or in flight-mode at night
+  #
   auto_light_persons:
     entities:
-      - person.jasper
-      - person.marielle
-      - person.marieke
-      - person.gerry
+      - device_tracker.gpslogger_pixel3a
+      - device_tracker.gpslogger_pixel4a
+
 
 notify:
+
+  # These hass apps will receive a push notification when alarm triggers
+  #
   - name: alarm_apps
     platform: group
     services:
