@@ -1,0 +1,71 @@
+input_boolean:
+  disco_light_enabled:
+    name: 'Discomodus buitenlamp'
+    initial: off
+    icon: mdi:party-popper
+
+automation:
+  - alias: 'Discolicht aan bij boolean aan'
+    trigger:
+      - platform: state
+        entity_id: input_boolean.disco_light_enabled
+        to: 'on'
+    action:
+      - service: script.disco_light_cycle
+        data:
+          light: buitenlamp_achtertuin_light
+
+script:
+
+  disco_light_cycle:
+    mode: restart
+    alias: 'Disco light cycle loop'
+    sequence:
+      repeat:
+        while:
+          - condition: state
+            entity_id: input_boolean.disco_light_enabled
+            state: 'on'
+
+        sequence:
+          - service: script.set_light
+            data:
+              light: "{{ light }}"
+              color_name: red
+
+          - service: script.set_light
+            data:
+              light: "{{ light }}"
+              color_name: green
+
+          - service: script.set_light
+            data:
+              light: "{{ light }}"
+              color_name: hotpink
+
+          - service: script.set_light
+            data:
+              light: "{{ light }}"
+              color_name: snow
+
+          - service: script.set_light
+            data:
+              light: "{{ light }}"
+              color_name: yellow
+
+          - delay: 2
+
+
+  set_light:
+    alias: 'Disco light color setter'
+    mode: restart
+    sequence:
+      - service: light.turn_on
+        target:
+          entity_id: "light.{{ light }}"
+        data_template:
+          transition: 1
+          brightness: 255
+          color_name: "{{ color_name }}"
+      - delay: 3
+   

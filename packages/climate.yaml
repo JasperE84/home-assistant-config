@@ -1,0 +1,40 @@
+input_boolean:
+  morgen_thuiswerken:
+    name: 'Morgen thuiswerken?'
+    initial: off
+    icon: mdi:chair-rolling
+
+automation:
+  - alias: 'Thermostaat zolder ''s nachts uitzetten'
+    description: 'Schakelt de thermostaat op zolder om 22:45 terug naar 16C'
+    trigger:
+    - at: '22:45:00'
+      platform: time
+    condition: []
+    action:
+    - data:
+        hvac_mode: auto
+        temperature: 16
+      entity_id: climate.thermostaat_studeerzolder_climate
+      service: climate.set_temperature
+    mode: single
+
+  - alias: 'Thermostaat aanzetten bij thuiswerken'
+    description: 'Schakelt de thermostaat op zolder om 06:30 naar 21C'
+    trigger:
+    - at: '06:30:00'
+      platform: time
+    condition:
+    - condition: state
+      entity_id: input_boolean.morgen_thuiswerken
+      state: 'on'
+    action:
+    - service: climate.set_temperature
+      entity_id: climate.thermostaat_studeerzolder_climate
+      data:
+        hvac_mode: auto
+        temperature: 21
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.morgen_thuiswerken
+    mode: single

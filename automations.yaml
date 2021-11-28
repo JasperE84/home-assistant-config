@@ -1,29 +1,22 @@
-- id: '1586290054304'
-  alias: Thermostaat zolder uitzetten
-  description: ''
-  trigger:
-  - at: '22:45:00'
-    platform: time
-  condition: []
-  action:
-  - data:
-      hvac_mode: auto
-      temperature: 16
-    entity_id: climate.thermostaat_studeerzolder_climate
-    service: climate.set_temperature
-  mode: single
 - id: '1586806110083'
   alias: Bericht aan Marielle als Jasper van werk vertrekt
   description: ''
   trigger:
-  - entity_id: device_tracker.pixel_4a
+  - entity_id: device_tracker.gpslogger_pixel4a
     event: leave
     platform: zone
     zone: zone.contour_winterswijk
+  - platform: zone
+    entity_id: device_tracker.gpslogger_pixel4a
+    zone: zone.anvil_valkenswaard
+    event: leave
+  - platform: zone
+    entity_id: device_tracker.gpslogger_pixel4a
+    zone: zone.rols_geldrop
+    event: leave
   condition: []
   action:
-  - data:
-      message: Jasper is in Winterswijk vertrokkken
-      title: Nu koken jij
-    service: notify.mobile_app_marielle_app_xiaomi
+  - service: notify.mobile_app_marielle_pixel_3a
+    data:
+      message: Jasper van werk vertrokken!
   mode: single
