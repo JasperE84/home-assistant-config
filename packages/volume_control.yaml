@@ -13,6 +13,7 @@ automation:
          entity_id: remote.woonkamer
          command: VolumeUp
          num_repeats: 5
+         delay_secs: 0.2
          device: 'ONKYO'
 
   - alias: Volume zachter
@@ -29,29 +30,45 @@ automation:
        data:
          entity_id: remote.woonkamer
          command: VolumeDown
-         num_repeats: 5
+         num_repeats: 7
+         delay_secs: 0.2
          device: 'ONKYO'
+
+  - alias: Mute
+    description: ''
+    trigger:
+    - entity_id: sensor.volumeknop_action
+      platform: state
+      to: 'play_pause'
+    action:
+     - service: remote.send_command
+       data:
+         entity_id: remote.woonkamer
+         command: Mute
+         device: 'ONKYO'
+
+
 
   #
   # For the E1744 symfonisk bind to MQTT event. The device state in home assistant becomes play_pause after buttong press.
   # Problem is it also stays that way. So state trigger won't fire twice. Solution is to bind to MQTT event instead.
   #
-  - alias: Pause
-    description: ''
-    trigger:
-    - platform: mqtt
-      topic: 'zigbee2mqtt/volumeknop/action'
-    condition:
-      - condition: template
-        value_template: '{{ "play_pause" == trigger.payload }}'
-      - condition: template
-        value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'Off' }}"
-    action:
-      - service: remote.send_command
-        data:
-          entity_id: remote.woonkamer
-          command: Pause
-        data_template:
-          device: >
-            {% if state_attr('remote.woonkamer', 'current_activity') == 'Kodi' %} SHIELD
-            {% else %} Chromecast {% endif %}
+  #- alias: Pause
+  #  description: ''
+  #  trigger:
+  #  - platform: mqtt
+  #    topic: 'zigbee2mqtt/volumeknop/action'
+  #  condition:
+  #    - condition: template
+  #      value_template: '{{ "play_pause" == trigger.payload }}'
+  #    - condition: template
+  #      value_template: "{{ state_attr('remote.woonkamer', 'current_activity') != 'Off' }}"
+  #  action:
+  #    - service: remote.send_command
+  #      data:
+  #        entity_id: remote.woonkamer
+  #        command: Pause
+  #      data_template:
+  #        device: >
+  #          {% if state_attr('remote.woonkamer', 'current_activity') == 'Kodi' %} SHIELD
+  #          {% else %} Chromecast {% endif %}

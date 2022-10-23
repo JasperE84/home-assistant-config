@@ -36,7 +36,7 @@ automation:
         entity_id:
         - group.alarm_lights
 
-  # Ikea knop trigger - alarm uit
+  # Ikea knop trigger - alarm uit - lamp beneden 1min aan
   - alias: Alarm altijd uitschakelen
     mode: queued
     trigger:
@@ -48,6 +48,9 @@ automation:
       entity_id: input_boolean.alarm_altijd
     - service: input_boolean.turn_off
       entity_id: input_boolean.alarm_flashing
+    - service: script.turn_on
+      entity_id: script.gang_lamp_script
+
 
   # Alarm sensor trigger
   - alias: Alarm sensor triggered automation

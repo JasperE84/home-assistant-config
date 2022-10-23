@@ -93,10 +93,10 @@ automation:
         entity_id: binary_sensor.gang_sensor_occupancy
         from: 'off'
         to: 'on'
-      - platform: state
-        entity_id: binary_sensor.overloop_occupancy
-        from: 'off'
-        to: 'on'
+      #- platform: state
+      #  entity_id: binary_sensor.overloop_occupancy
+      #  from: 'off'
+      #  to: 'on'
     action:
       - service: script.turn_on
         entity_id: script.gang_lamp_script
