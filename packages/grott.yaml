@@ -84,11 +84,6 @@ mqtt:
       name: Growatt - String 1 (Current)
 
     - state_topic: energy/growatt
-      device_class: current
-      unit_of_measurement: "A"
-      name: Growatt - String 1 (Current)
-
-    - state_topic: energy/growatt
       value_template: "{{ value_json['values']['pv2watt'] | int / 10 }}"
       unique_id: growatt_string2_watt
       device_class: power
