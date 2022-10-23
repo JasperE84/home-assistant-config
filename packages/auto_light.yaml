@@ -34,9 +34,11 @@ automation:
     trigger:
       - entity_id: binary_sensor.openslaande_deuren
         platform: state
+        from: 'off'
         to: 'on'
       - entity_id: binary_sensor.voordeur
         platform: state
+        from: 'off'
         to: 'on'
     condition:
       condition: and
@@ -64,12 +66,15 @@ automation:
     trigger:
     - entity_id: binary_sensor.gang_sensor_occupancy
       platform: state
+      from: 'off'
       to: 'on'
     - entity_id: binary_sensor.woonkamer_sensor_occupancy
       platform: state
+      from: 'off'
       to: 'on'
     - entity_id: binary_sensor.overloop_occupancy
       platform: state
+      from: 'off'
       to: 'on'
     condition:
     - condition: state
@@ -86,9 +91,11 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.gang_sensor_occupancy
+        from: 'off'
         to: 'on'
       - platform: state
         entity_id: binary_sensor.overloop_occupancy
+        from: 'off'
         to: 'on'
     action:
       - service: script.turn_on
@@ -100,6 +107,7 @@ automation:
     trigger:
       - entity_id: binary_sensor.openslaande_deuren
         platform: state
+        from: 'off'
         to: 'on'
       - platform: zone
         event: enter

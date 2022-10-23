@@ -3,6 +3,13 @@ default_config:
 homeassistant:
   packages: !include_dir_named packages
   customize: !include customize.yaml
+  customize_glob:
+    sensor.growatt_*_energ*:
+      last_reset: '1970-01-01T00:00:00+00:00'
+      device_class: energy
+      state_class: total_increasing
+      #measurement total_increasing
+
 
 logger:
   default: info 
@@ -21,6 +28,7 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 192.168.0.0/16
+    - 172.19.0.0/16
 
 google_assistant:
   project_id: !secret google_assistant_project_id 

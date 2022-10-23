@@ -12,7 +12,7 @@ automation:
        data:
          entity_id: remote.woonkamer
          command: VolumeUp
-         num_repeats: 3
+         num_repeats: 5
          device: 'ONKYO'
 
   - alias: Volume zachter
@@ -29,7 +29,7 @@ automation:
        data:
          entity_id: remote.woonkamer
          command: VolumeDown
-         num_repeats: 3
+         num_repeats: 5
          device: 'ONKYO'
 
   #

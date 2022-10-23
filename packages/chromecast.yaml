@@ -25,15 +25,15 @@ script:
     - service: media_player.turn_off
       entity_id: media_player.chromecast
     - wait_template: "{{ is_state('media_player.chromecast', 'off') }}"
-      timeout: '00:00:15'
+      timeout: '00:00:10'
     - service: media_player.turn_on
       entity_id: media_player.chromecast
     - wait_template: "{{ is_state('media_player.chromecast', 'idle') }}"
-      timeout: '00:00:15'
+      timeout: '00:00:10'
     - service: media_player.volume_set
       entity_id: media_player.chromecast
       data:
-        volume_level: 0.6
+        volume_level: 0.5
 
   versterker_on:
     alias: Versterker inschakelen
@@ -45,7 +45,7 @@ script:
       data:
         activity: Beeldmodus
     - wait_template: "{{ state_attr('remote.woonkamer', 'current_activity') == 'Versterker' }}"
-      timeout: '00:00:15'
+      timeout: '00:00:10'
 
   chromecast_audio_play:
     alias: Speel op chromecast

@@ -31,7 +31,7 @@ script:
           - service: script.set_light
             data:
               light: "{{ light }}"
-              color_name: red
+              color_name: purple
 
           - service: script.set_light
             data:
@@ -41,17 +41,22 @@ script:
           - service: script.set_light
             data:
               light: "{{ light }}"
-              color_name: hotpink
+              color_name: red
 
           - service: script.set_light
             data:
               light: "{{ light }}"
-              color_name: snow
+              color_name: blue
 
           - service: script.set_light
             data:
               light: "{{ light }}"
               color_name: yellow
+
+          - service: script.set_light
+            data:
+              light: "{{ light }}"
+              color_name: cyan
 
           - delay: 2
 

@@ -38,3 +38,26 @@ automation:
       target:
         entity_id: input_boolean.morgen_thuiswerken
     mode: single
+
+sensor:
+  - platform: template
+    sensors:
+      studeerzolder_temperature:
+        friendly_name: "Studeerzolder temperatuur"
+        unit_of_measurement: '°C'
+        value_template: "{{ state_attr('climate.thermostaat_studeerzolder_climate', 'current_temperature') }}"
+
+  - platform: template
+    sensors:
+      zolder_trappenhuis_temperature:
+        friendly_name: "Trappenhuis zoldertemperatuur"
+        unit_of_measurement: '°C'
+        value_template: "{{ state_attr('climate.airconditioner', 'current_temperature') }}"
+
+  - platform: template
+    sensors:
+      airconditioner_vermogen:
+        friendly_name: "Airconditioner vermogen"
+        unit_of_measurement: 'W'
+        value_template: "{{ state_attr('climate.airconditioner', 'power') }}"
+

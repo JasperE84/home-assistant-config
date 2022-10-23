@@ -8,6 +8,8 @@ recorder:
       - sensor.power*
       - sensor.energy*
       - sensor.voltage*
+      - sensor.airconditioner_energy_current
+      - sensor.growatt*
       - binary_sensor.*occupancy
       - person.*
       
@@ -28,7 +30,6 @@ recorder:
       - device_tracker.unifi_jasper_pixel_4a
       - device_tracker.unifi_marielle_pixel_3a
 
-      - sensor.airconditioner_vermogen
 
       # klimaat
       - climate.thermostaat_studeerzolder_climate
@@ -36,29 +37,6 @@ recorder:
       - sensor.zolder_trappenhuis_temperature
       - sensor.gang_sensor_temperature
       - sensor.woonkamer_sensor_temperature
-      
+      - sensor.airconditioner_room_temperature
       - sensor.ferry_portier_realfeel_temperature
-        
-sensor:
-  - platform: template
-    sensors:
-      studeerzolder_temperature:
-        friendly_name: "Studeerzolder temperatuur"
-        unit_of_measurement: '°C'
-        value_template: "{{ state_attr('climate.thermostaat_studeerzolder_climate', 'current_temperature') }}"
-
-  - platform: template
-    sensors:
-      zolder_trappenhuis_temperature:
-        friendly_name: "Trappenhuis zoldertemperatuur"
-        unit_of_measurement: '°C'
-        value_template: "{{ state_attr('climate.airconditioner', 'current_temperature') }}"
-
-  - platform: template
-    sensors:
-      airconditioner_vermogen:
-        friendly_name: "Airconditioner vermogen"
-        unit_of_measurement: 'W'
-        value_template: "{{ state_attr('climate.airconditioner', 'power') }}"
-
 
