@@ -85,21 +85,28 @@ automation:
     - entity_id: input_boolean.auto_light_iedereen_afwezig
       service: input_boolean.turn_off
 
-  - alias: 'Gang lamp automatisch aanzetten'
-    description: 'Zet lamp automatisch aan bij beweging, en na 1min weer uit. Reset 1min timer bij beweging binnen 1min'
+  - alias: 'Gang lamp automatisch aanzetten bij occupancy'
+    description: 'Zet lamp automatisch aan bij occupancy'
     mode: restart
     trigger:
       - platform: state
         entity_id: binary_sensor.gang_sensor_occupancy
         from: 'off'
         to: 'on'
-      #- platform: state
-      #  entity_id: binary_sensor.overloop_occupancy
-      #  from: 'off'
-      #  to: 'on'
     action:
-      - service: script.turn_on
-        entity_id: script.gang_lamp_script
+      - service: light.turn_on
+        entity_id: light.gang_lamp
+
+  - alias: 'Gang lamp automatisch uitzetten bij geen occupancy'
+    description: 'Zet lamp automatisch uit bij geen occupancy'
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.gang_sensor_occupancy
+        to: 'off'
+    action:
+      - service: light.turn_off
+        entity_id: light.gang_lamp
 
   - alias: 'Buitenlamp automatisch fel zetten bij deur open en thuiskomst'
     description: 'Zet lamp automatisch fel zetten bij achterdeur open of thuiskomst, en na 15min weer naar default.'

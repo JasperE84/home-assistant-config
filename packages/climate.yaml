@@ -20,7 +20,7 @@ automation:
     mode: single
 
   - alias: 'Thermostaat aanzetten bij thuiswerken'
-    description: 'Schakelt de thermostaat op zolder om 06:30 naar 21C'
+    description: 'Schakelt de thermostaat op zolder om 06:00'
     trigger:
     - at: '06:00:00'
       platform: time
@@ -29,6 +29,12 @@ automation:
       entity_id: input_boolean.morgen_thuiswerken
       state: 'on'
     action:
+    - service: climate.set_temperature
+      entity_id: climate.thermostaat_studeerzolder_climate
+      data:
+        hvac_mode: auto
+        temperature: 26
+    - delay: "02:00"
     - service: climate.set_temperature
       entity_id: climate.thermostaat_studeerzolder_climate
       data:
